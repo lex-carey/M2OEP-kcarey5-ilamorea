@@ -6,6 +6,11 @@
 
 using namespace std;
 
+void loadGames(string file_name, vector<Game> &games);
+void getMenuChoice(int &chosen_function);
+void getCorrect(char &correct);
+void logGame(Game &myGame, vector<Game> &games, vector <Game> &topGames);
+
 int main() {
     bool quit = false;
     //used for LOG_GAME case in switch statement
@@ -16,85 +21,14 @@ int main() {
     //used for calculating stats
     int average_bombs = 0, average_time = 0, games_won = 0, logic = 0, misclick = 0, miscount = 0, chance = 0;
     //loading game log into games vector
-    ifstream log("log.csv");
-    if (log) {
-        int month, year, bombs, time, reason, won;
-        char comma;
-        while (log) {
-            log >> month;
-            log >> comma;
-
-            log >> year;
-            log >> comma;
-
-            log >> bombs;
-            log >> comma;
-
-            log >> time;
-            log >> comma;
-
-            log >> reason;
-            log >> comma;
-
-            log >> won;
-            log >> ws;
-
-            games.push_back(Game(month, year, bombs, time, reason, won));
-
-            if (log.peek() == EOF) log.close();
-        }
-    }
-    //loading top games into top games vector
-    ifstream fileIn("topgames.csv");
-    if (fileIn)
-    {
-        int month, year, bombs, time, reason, won;
-        char comma;
-        while (fileIn) {
-            fileIn >> month;
-            fileIn >> comma;
-
-            fileIn >> year;
-            fileIn >> comma;
-
-            fileIn >> bombs;
-            fileIn >> comma;
-
-            fileIn >> time;
-            fileIn >> comma;
-
-            fileIn >> reason;
-            fileIn >> comma;
-
-            fileIn >> won;
-            fileIn >> ws;
-
-            topGames.push_back(Game(month, year, bombs, time, reason, won));
-
-            if (fileIn.peek() == EOF) fileIn.close();
-        }
-    }
+    loadGames("log.csv", games);
+    //loading topgames log into topGames vector
+    loadGames("topgames.csv", topGames);
     //visible beginning of program - menu screen
     cout << "Welcome to the Minesweeper Stats Tracker. " << endl;
-    while (!quit)
-    {
-        cout << "What would you like to do?" << endl <<
-            "0 = Log Game" << endl <<
-            "1 = View Stats" << endl <<
-            "2 = Exit" << endl <<
-            "Choice: ";
+    while (!quit) {
         int chosen_function;
-        //user prompted for a choice until they submit one that works
-        while (!(cin >> chosen_function) || 2 < chosen_function || chosen_function < 0) {
-            cin.clear();
-            string junk;
-            getline(cin, junk);
-            cout << "Invalid input, please choose a valid option." << endl <<
-                    "0 = Log Game" << endl <<
-                    "1 = View Stats" << endl <<
-                    "2 = Exit" << endl <<
-                    "Choice: ";
-        }
+        getMenuChoice(chosen_function);
         //represents the different states the program can be in, this is what's being chosen upon start
         enum class Functions {LOG_GAME, VIEW_STATS, QUIT} function = static_cast<Functions>(chosen_function);
         switch (function) {
@@ -111,43 +45,11 @@ int main() {
                     //this next line won't happen if the game has been won, reason will be set to NOT_TRACKING
                     if (!myGame.getWon()) myGame.setReason();
                     cout << "Is this information correct? (y/n): ";
-                    while (!(cin >> correct)) {
-                        cin.clear();
-                        string junk;
-                        getline(cin, junk);
-                        cout << "Invalid input, please type 'y' for yes or 'n' for no." << endl;
+                    getCorrect(correct);
+                    if (correct == 'y') {
+                        logGame(myGame, topGames, topGames);
+                        cout << "Your game has been logged. Thank you!" << endl;
                     }
-                    //updating game log
-                    games.push_back(myGame);
-                    ofstream updatedLog("log.csv");
-                    for (const Game &game : games) {
-                        updatedLog << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
-                        << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
-                    }
-                    updatedLog.close();
-                    //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
-                    if (topGames.size() == 0){
-                        topGames.push_back(myGame);
-                        ofstream fileOut("topgames.csv");
-                        for (const Game &game : topGames){
-                            fileOut << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
-                            << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
-                        }
-                        fileOut.close();
-                    }
-                    //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
-                    else {
-                        if (myGame >= topGames.back()) {
-                            topGames.push_back(myGame);
-                            ofstream fileOut("topgames.csv");
-                            for (const Game &topGame : topGames) {
-                                fileOut << topGame.getMonth() << "," << topGame.getYear() << "," << topGame.getBombs() << ","
-                                << topGame.getTime() << "," << topGame.getReason() << "," << topGame.getWon() << "\n";
-                            }
-                            fileOut.close();
-                        }
-                    }
-                    if (correct == 'y') cout << "Your game has been logged. Thank you!" << endl;
                     if (correct == 'n') cout << "Okay, let's start over." << endl;
                     this_thread::sleep_for(chrono::milliseconds(1500));
                 }
@@ -213,4 +115,139 @@ int main() {
     cout << "Goodbye!";
     this_thread::sleep_for(chrono::milliseconds(1500));
     return 0;
+}
+
+void loadGames(string file_name, vector<Game>& games) {
+    ifstream log(file_name);
+    if (log) {
+        int month, year, bombs, time, reason, won;
+        char comma;
+        while (log) {
+            log >> month;
+            log >> comma;
+
+            log >> year;
+            log >> comma;
+
+            log >> bombs;
+            log >> comma;
+
+            log >> time;
+            log >> comma;
+
+            log >> reason;
+            log >> comma;
+
+            log >> won;
+            log >> ws;
+
+            games.push_back(Game(month, year, bombs, time, reason, won));
+
+            if (log.peek() == EOF) log.close();
+        }
+    }
+}
+
+
+void getMenuChoice(int& chosen_function) {
+    string choice;
+    stringstream ss;
+    bool loop = true;
+    cout << "What would you like to do?" << endl <<
+            "0 = Log Game" << endl <<
+            "1 = View Stats" << endl <<
+            "2 = Exit" << endl <<
+            "Choice: ";
+    while (loop) {
+        getline(cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        while (choice.length() == 0) {
+            cout << "No input. Please enter a valid option!" << endl;
+            cout << "0 = Log Game" << endl <<
+            "1 = View Stats" << endl <<
+            "2 = Exit" << endl <<
+            "Choice: ";
+            cin.clear();
+            getline(cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+        }
+        if (choice != "0" || choice != "1" || choice != "2") {
+            cout << "Invalid choice. Please enter a valid option!" << endl;
+            cout << "0 = Log Game" << endl <<
+            "1 = View Stats" << endl <<
+            "2 = Exit" << endl <<
+            "Choice: ";
+            break;
+        }
+        //only way to end loop is if these conditions are met
+        if (choice == "0" || choice == "1" || choice == "2") {
+            ss << choice;
+            ss >> chosen_function;
+            loop = false;
+        }
+    }
+}
+
+
+void getCorrect(char &correct) {
+    string choice;
+    cout << "Is this information correct? (y/n): ";
+    getline(cin, choice);
+    while (choice != "y" || choice != "n") {
+        if (choice.length() == 0) {
+            cout << "No input. Please type 'y' for yes or 'n' for no. Is this information correct? (y/n): ";
+            cin.clear();
+            getline(cin, choice);
+        }
+        else {
+            cout << "Invalid input. Please type 'y' for yes or 'n' for no. Is this information correct? (y/n):";
+            cin.clear();
+            getline(cin, choice);
+        }
+    }
+    correct = choice[0];
+}
+
+void logGame(Game& myGame, vector<Game>& games, vector<Game>& topGames) {
+    //updating game log
+    games.push_back(myGame);
+    ofstream updatedLog("log.csv");
+    for (const Game &game : games) {
+        updatedLog << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
+        << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
+    }
+    updatedLog.close();
+    //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
+    if (topGames.size() == 0){
+        topGames.push_back(myGame);
+        ofstream fileOut("topgames.csv");
+        for (const Game &game : topGames){
+            fileOut << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
+            << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
+        }
+        fileOut.close();
+    }
+    //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
+    else {
+        if (myGame >= topGames.back()) {
+            topGames.push_back(myGame);
+            ofstream fileOut("topgames.csv");
+            for (const Game &topGame : topGames) {
+                fileOut << topGame.getMonth() << "," << topGame.getYear() << "," << topGame.getBombs() << ","
+                << topGame.getTime() << "," << topGame.getReason() << "," << topGame.getWon() << "\n";
+            }
+            fileOut.close();
+        }
+    }
 }
