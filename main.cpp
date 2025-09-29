@@ -3,13 +3,15 @@
 #include <fstream>
 #include <thread>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-void loadGames(string file_name, vector<Game> &games);
+void loadGames(const string &file_name, vector<Game> &games);
 void getMenuChoice(int &chosen_function);
 void getCorrect(char &correct);
 void logGame(Game &myGame, vector<Game> &games, vector <Game> &topGames);
+void getStats(const vector<Game> &games, const vector<Game> &topGames);
 
 int main() {
     bool quit = false;
@@ -18,12 +20,12 @@ int main() {
     Game myGame = Game();
     vector<Game> games;
     vector<Game> topGames;
-    //used for calculating stats
-    int average_bombs = 0, average_time = 0, games_won = 0, logic = 0, misclick = 0, miscount = 0, chance = 0;
     //loading game log into games vector
     loadGames("log.csv", games);
     //loading topgames log into topGames vector
     loadGames("topgames.csv", topGames);
+    cout << games.size() << endl;
+    cout << topGames.size() << endl;
     //visible beginning of program - menu screen
     cout << "Welcome to the Minesweeper Stats Tracker. " << endl;
     while (!quit) {
@@ -33,7 +35,7 @@ int main() {
         enum class Functions {LOG_GAME, VIEW_STATS, QUIT} function = static_cast<Functions>(chosen_function);
         switch (function) {
             case Functions::LOG_GAME:
-                cout << "Chosen to log game." << endl;
+                cout << endl << "Chosen to log game." << endl;
                 this_thread::sleep_for(chrono::milliseconds(600));
                 while (correct == 'n') {
                     //next three lines pull month and year from system and set month and year using setDate method
@@ -46,77 +48,28 @@ int main() {
                     if (!myGame.getWon()) myGame.setReason();
                     getCorrect(correct);
                     if (correct == 'y') {
-                        logGame(myGame, topGames, topGames);
-                        cout << "Your game has been logged. Thank you!" << endl;
+                        logGame(myGame, games, topGames);
+                        cout << "Your game has been logged. Thank you!" << endl << endl;
                     }
-                    if (correct == 'n') cout << "Okay, let's start over." << endl;
+                    if (correct == 'n') cout << "Okay, let's start over." << endl << endl;
                     this_thread::sleep_for(chrono::milliseconds(1500));
                 }
                 //this ensures another game can be added subsequently if the user chooses to do so
                 correct = 'n';
                 break;
             case Functions::VIEW_STATS:
-                cout << "Chosen to view stats." << endl;
-                this_thread::sleep_for(chrono::milliseconds(600));
-                cout << "Updating Stats . . . " << endl;
-                //tallying numbers for stats
-                for (const Game &game : games) {
-                    average_bombs += game.getBombs();
-                    average_time += game.getTime();
-                    if (game.getWon()) games_won++;
-                    switch (game.getReason()) {
-                        case 1:
-                            logic++;
-                            break;
-                        case 2:
-                            misclick++;
-                            break;
-                        case 3:
-                            miscount++;
-                            break;
-                        case 4:
-                            misclick++;
-                            break;
-                        default: break;
-                    }
-                }
-                average_bombs = average_bombs/games.size();
-                average_time = average_time/games.size();
-                this_thread::sleep_for(chrono::milliseconds(1000));
-                //stats output
-                cout << "You have played " << games.size() << " games of Minesweeper so far!" << endl << endl;
-                this_thread::sleep_for(chrono::milliseconds(1500));
-                cout << "Your average game time is " << average_time
-                << " seconds, and your average number of bombs cleared is " << average_bombs << "." << endl << endl;
-                this_thread::sleep_for(chrono::milliseconds(3000));
-                //following line will only happen if a game has been won
-                if (games_won > 0) cout << "You have won " << games_won << " games of Minesweeper so far. Keep it up!" << endl << endl;
-                //alternate text for if no games have been won
-                else cout << "It looks like you haven't won any games yet. Keep trying and you'll get your first!" << endl << endl;
-                this_thread::sleep_for(chrono::milliseconds(2000));
-                //there is an option not to track loss reasons, this ensures that following stats will only be displayed if user chooses to track them.
-                if (logic || misclick || miscount || chance) {
-                    cout << "Here are your loss stats (ouch)! You've lost " << (games.size() - games_won) << " games so far. " << endl
-                    << "You've lost due to a logic error " << logic << " time(s). You've lost to a misclick " << misclick << " time(s) and a miscount " << miscount << " time(s)." << endl
-                    << "You've lost due to chance " << chance << " time(s). That one always sucks." << endl << endl;
-                    this_thread::sleep_for(chrono::milliseconds(5000));
-                }
-                cout << "Your best game was on " << topGames.back().getMonth() << "/" << topGames.back().getYear() << "."
-                << " You cleared " << topGames.back().getBombs() << " bombs in " << topGames.back().getTime() << " seconds!" << endl << endl;
-                this_thread::sleep_for(chrono::milliseconds(2000));
-                cout << "Well, those are all the stats I have for you right now. Feel free to log more games and check back for updates!" << endl << endl;
-                this_thread::sleep_for(chrono::milliseconds(2000));
+                getStats(games, topGames);
                 break;
             case Functions::QUIT:
                 quit = true;
             }
     }
-    cout << "Goodbye!";
+    cout << endl << "Goodbye!" << endl;
     this_thread::sleep_for(chrono::milliseconds(1500));
     return 0;
 }
 
-void loadGames(string file_name, vector<Game>& games) {
+void loadGames(const string &file_name, vector<Game> &games) {
     ifstream log(file_name);
     if (log) {
         int month, year, bombs, time, reason, won;
@@ -147,7 +100,7 @@ void loadGames(string file_name, vector<Game>& games) {
     }
 }
 
-void getMenuChoice(int& chosen_function) {
+void getMenuChoice(int &chosen_function) {
     string choice;
     stringstream ss;
     bool loop = true;
@@ -167,11 +120,11 @@ void getMenuChoice(int& chosen_function) {
             choice.erase(choice.length() - 1);
         }
         while (choice.length() == 0) {
-            cout << "No input. Please enter a valid option!" << endl;
-            cout << "0 = Log Game" << endl <<
-            "1 = View Stats" << endl <<
-            "2 = Exit" << endl <<
-            "Choice: ";
+            cout << endl << "No input. Please enter a valid option!" << endl <<
+                            "0 = Log Game" << endl <<
+                            "1 = View Stats" << endl <<
+                            "2 = Exit" << endl <<
+                            "Choice: ";
             cin.clear();
             getline(cin, choice);
             while (choice[0] == ' ') {
@@ -182,11 +135,11 @@ void getMenuChoice(int& chosen_function) {
             }
         }
         if (choice != "0" && choice != "1" && choice != "2") {
-            cout << "Invalid choice. Please enter a valid option!" << endl;
-            cout << "0 = Log Game" << endl <<
-            "1 = View Stats" << endl <<
-            "2 = Exit" << endl <<
-            "Choice: ";
+            cout << endl << "Invalid choice. Please enter a valid option!" << endl <<
+                            "0 = Log Game" << endl <<
+                            "1 = View Stats" << endl <<
+                            "2 = Exit" << endl <<
+                            "Choice: ";
         }
         //only way to end loop is if these conditions are met
         if (choice == "0" || choice == "1" || choice == "2") {
@@ -200,17 +153,17 @@ void getMenuChoice(int& chosen_function) {
 
 void getCorrect(char &correct) {
     string choice;
-    cout << "Please enter a character: ";
+    cout << "Is this information correct? (y/n): ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, choice);
-    while (choice.length() != 1) {
+    while (choice != "y" && choice != "n") {
         if (choice.length() == 0) {
-            cout << "No input. Please enter a character: ";
+            cout << "No input. Please enter 'y' for yes or 'n' for no. Is this information correct?: ";
             cin.clear();
             getline(cin, choice);
         }
         else {
-            cout << "Invalid input. A character must have a length of one. Please enter a character: ";
+            cout << "Invalid input. Please enter 'y' for yes or 'n' for no. Is this information correct?: ";
             cin.clear();
             getline(cin, choice);
         }
@@ -218,7 +171,7 @@ void getCorrect(char &correct) {
     correct = choice[0];
 }
 
-void logGame(Game& myGame, vector<Game>& games, vector<Game>& topGames) {
+void logGame(Game &myGame, vector<Game> &games, vector<Game> &topGames) {
     //updating game log
     games.push_back(myGame);
     ofstream updatedLog("log.csv");
@@ -228,7 +181,7 @@ void logGame(Game& myGame, vector<Game>& games, vector<Game>& topGames) {
     }
     updatedLog.close();
     //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
-    if (topGames.size() == 0){
+    if (topGames.size() == 0) {
         topGames.push_back(myGame);
         ofstream fileOut("topgames.csv");
         for (const Game &game : topGames){
@@ -248,5 +201,71 @@ void logGame(Game& myGame, vector<Game>& games, vector<Game>& topGames) {
             }
             fileOut.close();
         }
+    }
+}
+
+void getStats(const vector<Game> &games, const vector<Game> &topGames) {
+    cout << endl << "Chosen to view stats." << endl;
+    this_thread::sleep_for(chrono::milliseconds(600));
+    //checking that there are actually games to get stats for
+    if (games.size() > 0) {
+        int average_bombs = 0, average_time = 0, games_won = 0, logic = 0, misclick = 0, miscount = 0, chance = 0;
+        cout << endl << "Updating Stats . . . " << endl << endl;
+        //tallying numbers for stats
+        for (const Game &game : games) {
+            average_bombs += game.getBombs();
+            average_time += game.getTime();
+            if (game.getWon()) games_won++;
+            switch (game.getReason()) {
+            case 1:
+                logic++;
+                break;
+            case 2:
+                misclick++;
+                break;
+            case 3:
+                miscount++;
+                break;
+            case 4:
+                chance++;
+                break;
+            default: break;
+            }
+        }
+        average_bombs = average_bombs/games.size();
+        average_time = average_time/games.size();
+        this_thread::sleep_for(chrono::milliseconds(1000));
+        //stats output
+        cout << "You have played " << games.size() << " game(s) of Minesweeper so far!" << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(1500));
+        cout << "Your average game time is " << average_time
+        << " seconds, and your average number of bombs cleared is " << average_bombs << "." << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(3000));
+        //following line will only happen if a game has been won
+        if (games_won > 0) cout << "You have won " << games_won << " game(s) of Minesweeper so far. Keep it up!" << endl << endl;
+        //alternate text for if no games have been won
+        else cout << "It looks like you haven't won any games yet. Keep trying and you'll get your first!" << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(2000));
+        //there is an option not to track loss reasons, this ensures that following stats will only be displayed if user chooses to track them.
+        if (logic || misclick || miscount || chance) {
+            cout << "Here are your loss stats (ouch)! You've lost " << (games.size() - games_won) << " game(s) so far. " << endl
+            << "You've lost due to a logic error " << logic << " time(s)." << endl <<
+                "You've lost to a misclick " << misclick << " time(s), and a miscount " << miscount << " time(s)." << endl <<
+                "You've lost due to chance " << chance << " time(s). That one always sucks." << endl << endl;
+            this_thread::sleep_for(chrono::milliseconds(5000));
+        }
+        else {
+            cout << "You currently have no loss stats to display." << endl << endl;
+            this_thread::sleep_for(chrono::milliseconds(2000));
+        }
+        cout << "Your best game was on " << topGames.back().getMonth() << "/" << topGames.back().getYear() << "."
+        << " You cleared " << topGames.back().getBombs() << " bombs in " << topGames.back().getTime() << " seconds!" << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(2000));
+        cout << "Well, those are all the stats I have for you right now. Feel free to log more games and check back for updates!" << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(2000));
+    }
+    else {
+        cout << "You haven't logged any games yet! Log a game first to see your stats :)" << endl << endl;
+        this_thread::sleep_for(chrono::milliseconds(1500));
     }
 }
