@@ -188,7 +188,6 @@ void getMenuChoice(int& chosen_function) {
             "1 = View Stats" << endl <<
             "2 = Exit" << endl <<
             "Choice: ";
-            break;
         }
         //only way to end loop is if these conditions are met
         if (choice == "0" || choice == "1" || choice == "2") {
