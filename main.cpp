@@ -44,7 +44,6 @@ int main() {
                     myGame.setBombs();
                     //this next line won't happen if the game has been won, reason will be set to NOT_TRACKING
                     if (!myGame.getWon()) myGame.setReason();
-                    cout << "Is this information correct? (y/n): ";
                     getCorrect(correct);
                     if (correct == 'y') {
                         logGame(myGame, topGames, topGames);
@@ -148,7 +147,6 @@ void loadGames(string file_name, vector<Game>& games) {
     }
 }
 
-
 void getMenuChoice(int& chosen_function) {
     string choice;
     stringstream ss;
@@ -159,6 +157,7 @@ void getMenuChoice(int& chosen_function) {
             "2 = Exit" << endl <<
             "Choice: ";
     while (loop) {
+        cin.clear();
         getline(cin, choice);
         //following two while-loops remove whitespace
         while (choice[0] == ' ') {
@@ -182,7 +181,7 @@ void getMenuChoice(int& chosen_function) {
                 choice.erase(choice.length() - 1);
             }
         }
-        if (choice != "0" || choice != "1" || choice != "2") {
+        if (choice != "0" && choice != "1" && choice != "2") {
             cout << "Invalid choice. Please enter a valid option!" << endl;
             cout << "0 = Log Game" << endl <<
             "1 = View Stats" << endl <<
@@ -193,24 +192,25 @@ void getMenuChoice(int& chosen_function) {
         if (choice == "0" || choice == "1" || choice == "2") {
             ss << choice;
             ss >> chosen_function;
+            cin.clear();
             loop = false;
         }
     }
 }
 
-
 void getCorrect(char &correct) {
     string choice;
-    cout << "Is this information correct? (y/n): ";
+    cout << "Please enter a character: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, choice);
-    while (choice != "y" || choice != "n") {
+    while (choice.length() != 1) {
         if (choice.length() == 0) {
-            cout << "No input. Please type 'y' for yes or 'n' for no. Is this information correct? (y/n): ";
+            cout << "No input. Please enter a character: ";
             cin.clear();
             getline(cin, choice);
         }
         else {
-            cout << "Invalid input. Please type 'y' for yes or 'n' for no. Is this information correct? (y/n):";
+            cout << "Invalid input. A character must have a length of one. Please enter a character: ";
             cin.clear();
             getline(cin, choice);
         }

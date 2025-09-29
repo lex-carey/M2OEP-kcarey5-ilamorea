@@ -30,8 +30,7 @@ void Game::setBombs() {
     //every Minesweeper map contains 100 bombs
     cout << "How many bombs were remaining? (Pick an integer between 0 and 100): ";
     int chosen_bombs;
-    while (!(cin >> chosen_bombs) || 100 < chosen_bombs || chosen_bombs < 0)
-    {
+    while (!(cin >> chosen_bombs) || 100 < chosen_bombs || chosen_bombs < 0) {
         cin.clear();
         string junk;
         getline(cin, junk);
@@ -52,8 +51,7 @@ void Game::setTime() {
     //999 seconds is the maximum tracked time on Minesweeper
     cout << "How long (in seconds) did the game take? (Please pick an integer between 0 and 999): ";
     int chosen_time;
-    while (!(cin >> chosen_time) || 999 < chosen_time || chosen_time < 0)
-    {
+    while (!(cin >> chosen_time) || 999 < chosen_time || chosen_time < 0) {
         cin.clear();
         string junk;
         getline(cin, junk);
@@ -75,8 +73,7 @@ void Game::setReason() {
             "4 = Chance" << endl <<
             "Reason: ";
     int chosen_reason;
-    while (!(cin >> chosen_reason) || 4 < chosen_reason || chosen_reason < 0)
-    {
+    while (!(cin >> chosen_reason) || 4 < chosen_reason || chosen_reason < 0) {
         cin.clear();
         string junk;
         getline(cin, junk);
