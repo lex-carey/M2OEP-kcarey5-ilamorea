@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
-project(M1OEP)
+project(M2OEP)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(M1OEP
+add_executable(M2OEP
                 main.cpp
                 game.cpp)
