@@ -102,7 +102,6 @@ void loadGames(const string &file_name, vector<Game> &games) {
 
 void getMenuChoice(int &chosen_function) {
     string choice;
-    stringstream ss;
     bool loop = true;
     cout << "What would you like to do?" << endl <<
             "0 = Log Game" << endl <<
@@ -110,7 +109,6 @@ void getMenuChoice(int &chosen_function) {
             "2 = Exit" << endl <<
             "Choice: ";
     while (loop) {
-        cin.clear();
         getline(cin, choice);
         //following two while-loops remove whitespace
         while (choice[0] == ' ') {
@@ -125,7 +123,6 @@ void getMenuChoice(int &chosen_function) {
                             "1 = View Stats" << endl <<
                             "2 = Exit" << endl <<
                             "Choice: ";
-            cin.clear();
             getline(cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -143,9 +140,9 @@ void getMenuChoice(int &chosen_function) {
         }
         //only way to end loop is if these conditions are met
         if (choice == "0" || choice == "1" || choice == "2") {
+            stringstream ss;
             ss << choice;
             ss >> chosen_function;
-            cin.clear();
             loop = false;
         }
     }
@@ -158,12 +155,10 @@ void getCorrect(char &correct) {
     while (choice != "y" && choice != "n") {
         if (choice.length() == 0) {
             cout << "No input. Please enter 'y' for yes or 'n' for no. Is this information correct?: ";
-            cin.clear();
             getline(cin, choice);
         }
         else {
             cout << "Invalid input. Please enter 'y' for yes or 'n' for no. Is this information correct?: ";
-            cin.clear();
             getline(cin, choice);
         }
     }

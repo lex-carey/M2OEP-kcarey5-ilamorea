@@ -173,10 +173,8 @@ void Game::setReason() {
             "Reason: ";
     int chosen_reason = 0;
     string choice;
-    stringstream ss;
     bool loop = true;
     while (loop) {
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, choice);
         //following two while-loops remove whitespace
         while (choice[0] == ' ') {
@@ -191,7 +189,6 @@ void Game::setReason() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "No input. Please enter an integer between 0 and 4: ";
             getline(cin, choice);
             while (choice[0] == ' ') {
@@ -214,6 +211,7 @@ void Game::setReason() {
             count++;
         }
         if (count == (1 + choice.length())) {
+            stringstream ss;
             int potential_reason;
             ss << choice;
             ss >> potential_reason;
