@@ -1,7 +1,9 @@
 #ifndef M2OEP_STATS_H
 #define M2OEP_STATS_H
 
-//Stats has-a Game
+//Stats has minesweeper and balatro games
+#include "minesweeper.h"
+#include "balatro.h"
 
 class Stats {
     //move vectors of games here - games + topGames for each type of game

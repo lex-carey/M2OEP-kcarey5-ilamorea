@@ -43,7 +43,7 @@ int main() {
                     tm *localTime = localtime(&now);
                     myGame.setDate((1 + localTime->tm_mon),(1900 + localTime->tm_year));
                     myGame.setTime();
-                    myGame.setBombs();
+                    myGame.setScore();
                     //this next line won't happen if the game has been won, reason will be set to NOT_TRACKING
                     if (!myGame.getWon()) myGame.setReason();
                     getCorrect(correct);
@@ -170,7 +170,7 @@ void logGame(Game &myGame, vector<Game> &games, vector<Game> &topGames) {
     games.push_back(myGame);
     ofstream updatedLog("log.csv");
     for (const Game &game : games) {
-        updatedLog << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
+        updatedLog << game.getMonth() << "," << game.getYear() << "," << game.getScore() << ","
         << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
     }
     updatedLog.close();
@@ -179,7 +179,7 @@ void logGame(Game &myGame, vector<Game> &games, vector<Game> &topGames) {
         topGames.push_back(myGame);
         ofstream fileOut("topgames.csv");
         for (const Game &game : topGames){
-            fileOut << game.getMonth() << "," << game.getYear() << "," << game.getBombs() << ","
+            fileOut << game.getMonth() << "," << game.getYear() << "," << game.getScore() << ","
             << game.getTime() << "," << game.getReason() << "," << game.getWon() << "\n";
         }
         fileOut.close();
@@ -190,7 +190,7 @@ void logGame(Game &myGame, vector<Game> &games, vector<Game> &topGames) {
             topGames.push_back(myGame);
             ofstream fileOut("topgames.csv");
             for (const Game &topGame : topGames) {
-                fileOut << topGame.getMonth() << "," << topGame.getYear() << "," << topGame.getBombs() << ","
+                fileOut << topGame.getMonth() << "," << topGame.getYear() << "," << topGame.getScore() << ","
                 << topGame.getTime() << "," << topGame.getReason() << "," << topGame.getWon() << "\n";
             }
             fileOut.close();
@@ -207,7 +207,7 @@ void getStats(const vector<Game> &games, const vector<Game> &topGames) {
         cout << endl << "Updating Stats . . . " << endl << endl;
         //tallying numbers for stats
         for (const Game &game : games) {
-            average_bombs += game.getBombs();
+            average_bombs += game.getScore();
             average_time += game.getTime();
             if (game.getWon()) games_won++;
             switch (game.getReason()) {
@@ -253,7 +253,7 @@ void getStats(const vector<Game> &games, const vector<Game> &topGames) {
             this_thread::sleep_for(chrono::milliseconds(2000));
         }
         cout << "Your best game was on " << topGames.back().getMonth() << "/" << topGames.back().getYear() << "."
-        << " You cleared " << topGames.back().getBombs() << " bombs in " << topGames.back().getTime() << " seconds!" << endl << endl;
+        << " You cleared " << topGames.back().getScore() << " bombs in " << topGames.back().getTime() << " seconds!" << endl << endl;
         this_thread::sleep_for(chrono::milliseconds(2000));
         cout << "Well, those are all the stats I have for you right now. Feel free to log more games and check back for updates!" << endl << endl;
         this_thread::sleep_for(chrono::milliseconds(2000));
