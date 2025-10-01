@@ -5,4 +5,10 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(M2OEP
                 main.cpp
-                game.cpp)
+                game.cpp
+        minesweeper.cpp
+        minesweeper.h
+        balatro.cpp
+        balatro.h
+        stats.cpp
+        stats.h)

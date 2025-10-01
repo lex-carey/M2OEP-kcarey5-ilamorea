@@ -1,8 +1,9 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef M2OEP_GAME_H
+#define M2OEP_GAME_H
 
 class Game {
 private:
+    //keep month, year, won, change bombs to score, time
     int month, year, bombs, time;
     bool won;
     enum class Reasons {NOT_TRACKING, LOGIC, MISCLICK, MISCOUNT, CHANCE} reason;
@@ -167,4 +168,4 @@ public:
     }
 };
 
-#endif //GAME_H
+#endif //M2OEP_GAME_H

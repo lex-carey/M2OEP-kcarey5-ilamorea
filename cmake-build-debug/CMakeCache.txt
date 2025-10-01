@@ -146,7 +146,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=M1OEP
+CMAKE_PROJECT_NAME:STATIC=M2OEP
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -221,6 +221,15 @@ M1OEP_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 M1OEP_SOURCE_DIR:STATIC=/Users/alexiscarey/CLionProjects/M2OEP-kcarey5-ilamorea
+
+//Value Computed by CMake
+M2OEP_BINARY_DIR:STATIC=/Users/alexiscarey/CLionProjects/M2OEP-kcarey5-ilamorea/cmake-build-debug
+
+//Value Computed by CMake
+M2OEP_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+M2OEP_SOURCE_DIR:STATIC=/Users/alexiscarey/CLionProjects/M2OEP-kcarey5-ilamorea
 
 
 ########################
