@@ -154,7 +154,6 @@ void getMenuChoice(int &chosen_function) {
 void getCorrect(char &correct) {
     string choice;
     cout << "Is this information correct? (y/n): ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, choice);
     while (choice != "y" && choice != "n") {
         if (choice.length() == 0) {
