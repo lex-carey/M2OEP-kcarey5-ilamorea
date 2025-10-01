@@ -41,9 +41,6 @@ void Minesweeper::setScore() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            cin.clear();
-            string junk;
-            getline(cin, junk);
             cout << "No input. Please enter an integer between 0 and 100: ";
             getline(cin, choice);
             while (choice[0] == ' ') {
@@ -60,9 +57,6 @@ void Minesweeper::setScore() {
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                cin.clear();
-                string junk;
-                getline(cin, junk);
                 cout << "Invalid input. Please enter an integer between 0 and 100: ";
                 break;
             }
@@ -84,9 +78,6 @@ void Minesweeper::setScore() {
                 loop = false;
             }
             else {
-                cin.clear();
-                string junk;
-                getline(cin, junk);
                 cout << "Invalid input. Please enter an integer between 0 and 100: ";
             }
         }
