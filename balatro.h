@@ -17,15 +17,32 @@ class Balatro : public Game {
     public:
         //default constructor sets everything to zero/null (see default constructor in game.cpp)
         inline Balatro();
-        inline Balatro();
 
         //constructor for file reading
-        //setDeck() - steal logic from setReason()
-        //setStake() - steal logic from setReason()
-        //overload setTime()
-        //setRound() - steal logic from setTime()
-        //setHand() - steal logic from setReason()
-        //overload setScore() <- currently setBombs()
+        inline Balatro(const int &month, const int &year, const int &deck, const int &stake, const int &score, const int &time, const int &round, const int &hand, const int &won);
+
+        //steal logic from setReason()
+        inline void setDeck();
+
+        //similar logic to Minesweeper::SetTime(), figure out way to accept E scores
+        inline void setScore();
+
+        //steal logic from Minesweeper::setTime(), if user gets past ante 8 (so to ante 9) won is set to true
+        inline void setTime();
+
+        //similar logic to setTime() but does not modify won
+        inline void setRound();
+
+        //steal logic from setReason()
+        inline void setHand();
+
+        //steal logic from getReason()
+        inline int getDeck() const;
+
+        inline int getRound() const;
+
+        //steal logic from getReason()
+        inline int getHand() const;
 
         //overload operators
 };
