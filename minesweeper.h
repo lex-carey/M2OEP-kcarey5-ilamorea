@@ -57,12 +57,6 @@ class Minesweeper : public Game {
      * Returns the reason the game was lost and NOT_TRACKING if the game was won or if the user chose not to track this.
      */
     inline int getReason() const;
-
-    //default constructor sets everything to zero/null
-    //constructor for file reading, no major modifications just refactor logic as needed
-    //move setReason() here
-    //overload setTime()
-    //overload setScore() <- called setBombs rn
 };
 
 
