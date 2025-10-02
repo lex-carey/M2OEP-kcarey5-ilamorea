@@ -15,7 +15,7 @@ public:
      * Modifies: month, year, score, time, won
      * Creates a new game where all integer variables are set to 0 and won is set to false.
      */
-    inline Game();
+    Game();
 
     /*
      * Overloaded Constructor
@@ -23,7 +23,7 @@ public:
      * Modifies: month, year, score, time, won
      * Creates a new game using the values passed into the function. The integer value won is static cast onto the variable.
      */
-    inline Game(const int &month, const int &year, const int &score, const int &time, const int &won);
+    Game(const int &month, const int &year, const int &score, const int &time, const int &won);
 
     /*
     * Set time
@@ -31,7 +31,7 @@ public:
     * Modifies: month, year
     * Sets the date to the specified month and year.
     */
-    inline void setDate(const int &month, const int &year);
+    void setDate(const int &month, const int &year);
 
     /*
      * Get month
@@ -39,7 +39,7 @@ public:
      * Modifies: Nothing
      * Returns the month the game was played (1-12).
      */
-    inline int getMonth() const;
+    int getMonth() const;
 
     /*
      * Get year
@@ -47,7 +47,7 @@ public:
      * Modifies: Nothing
      * Returns the year the game was played.
      */
-    inline int getYear() const;
+    int getYear() const;
 
     /*
      * Get score
@@ -55,7 +55,7 @@ public:
      * Modifies: Nothing
      * Returns the game score.
      */
-    inline int getScore() const;
+    int getScore() const;
 
     /*
      * Get time
@@ -63,7 +63,7 @@ public:
      * Modifies: Nothing
      * Returns the duration of the game.
      */
-    inline int getTime() const;
+    int getTime() const;
 
     /*
      * Get reason
@@ -71,9 +71,9 @@ public:
      * Modifies: Nothing
      * Returns true if the game was won, false otherwise.
      */
-    inline bool getWon() const;
+    bool getWon() const;
 
-    inline virtual int getSpecialValues(const int &value);
+    virtual int getSpecialValues(const int &value);
 
     friend bool operator < (const Game &g1, const Game &g2) {
         bool less = false;

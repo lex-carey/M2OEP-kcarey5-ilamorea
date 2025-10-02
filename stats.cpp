@@ -138,86 +138,73 @@ Stats::Stats() {
     }
 }
 
-void Stats::logGame(const int &chosen_state, const std::unique_ptr<Game> &myGame) {
-    state = static_cast<States>(chosen_state);
-    switch (state) {
-        case States::MINESWEEPER: {
-                //updating game log
-                minesweeperGames.push_back(std::make_unique<Game>(*myGame));
-                std::ofstream updatedLog("minesweeper_log.csv");
-                for (const std::unique_ptr<Game> &game : minesweeperGames) {
-                    updatedLog << game->getMonth() << "," << game->getYear() << "," << game->getScore() << ","
-                    << game->getTime() << "," << game->getSpecialValues(0) << "," << game->getWon() << "\n";
-                    //do we need .getReason in stats.h? <- Yes, we're doing cases
-                }
-                updatedLog.close();
-                //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
-                if (minesweeperTopGames.empty()) {
-                    minesweeperTopGames.push_back(std::make_unique<Game>(*myGame));
-                    std::ofstream fileOut("minesweeper_top_games.csv");
-                    for (const std::unique_ptr<Game> &game : minesweeperTopGames){
-                        fileOut << game->getMonth() << "," << game->getYear() << "," << game->getScore() << ","
-                        << game->getTime() << "," << game->getSpecialValues(0) << "," << game->getWon() << "\n";
-                    }
-                    fileOut.close();
-                }
-                //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
-                else {
-                    if (myGame >= minesweeperTopGames.back()) {
-                        minesweeperTopGames.push_back(std::make_unique<Game>(*myGame));
-                        std::ofstream fileOut("minesweeper_top_games.csv");
-                        for (const std::unique_ptr<Game> &topGame : minesweeperTopGames) {
-                            fileOut << topGame->getMonth() << "," << topGame->getYear() << "," << topGame->getScore() << ","
-                            << topGame->getTime() << "," << topGame->getSpecialValues(0) << "," << topGame->getWon() << "\n";
-                        }
-                        fileOut.close();
-                    }
-                }
-                break;
+void Stats::logMinesweeperGame(const std::unique_ptr<Minesweeper> &myGame) {
+    //updating game log
+    minesweeperGames.push_back(std::make_unique<Minesweeper>(*myGame));
+    std::ofstream updatedLog("minesweeper_log.csv");
+    for (const std::unique_ptr<Minesweeper> &game : minesweeperGames) {
+        updatedLog << game->getMonth() << "," << game->getYear() << "," << game->getScore() << ","
+        << game->getTime() << "," << game->getReason() << "," << game->getWon() << "\n";
+    }
+    updatedLog.close();
+    //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
+    if (minesweeperTopGames.empty()) {
+        minesweeperTopGames.push_back(std::make_unique<Minesweeper>(*myGame));
+        std::ofstream fileOut("minesweeper_top_games.csv");
+        for (const std::unique_ptr<Minesweeper> &game : minesweeperTopGames){
+            fileOut << game->getMonth() << "," << game->getYear() << "," << game->getScore() << ","
+            << game->getTime() << "," << game->getReason() << "," << game->getWon() << "\n";
+        }
+        fileOut.close();
+    }
+    //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
+    else {
+        if (*myGame >= *minesweeperTopGames.back()) {
+            minesweeperTopGames.push_back(std::make_unique<Minesweeper>(*myGame));
+            std::ofstream fileOut("minesweeper_top_games.csv");
+            for (const std::unique_ptr<Minesweeper> &topGame : minesweeperTopGames) {
+                fileOut << topGame->getMonth() << "," << topGame->getYear() << "," << topGame->getScore() << ","
+                << topGame->getTime() << "," << topGame->getReason() << "," << topGame->getWon() << "\n";
             }
-        case States::BALATRO: {
-                //updating game log
-                balatroGames.push_back(std::make_unique<Game>(*myGame));
-                std::ofstream updatedBLog("balatro_log.csv");
-                for (const std::unique_ptr<Game> &game : balatroGames) {
-                    updatedBLog << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
-                    << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
-                    << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
-                    //do we need .getReason in stats.h? <- Yes, we're doing cases
-                }
-                updatedBLog.close();
-                //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
-                if (balatroTopGames.empty()) {
-                    balatroTopGames.push_back(std::make_unique<Game>(*myGame));
-                    std::ofstream fileOutB("balatro_top_games.csv");
-                    for (const std::unique_ptr<Game> &game : balatroTopGames){
-                        fileOutB << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
-                        << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
-                        << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
-                    }
-                    fileOutB.close();
-                }
-                //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
-                else {
-                    if (myGame >= balatroTopGames.back()) {
-                        balatroTopGames.push_back(std::make_unique<Game>(*myGame));
-                        std::ofstream fileOutB("balatro_top_games.csv");
-                        for (const std::unique_ptr<Game> &topGame : balatroTopGames) {
-                            fileOutB << topGame->getMonth() << "," << topGame->getYear() << "," << topGame->getSpecialValues(0) << ","
-                            << topGame->getSpecialValues(1) << "," << topGame->getScore() << "," << topGame->getTime() << ","
-                            << topGame->getSpecialValues(2) << "," << topGame->getSpecialValues(3) << "," << topGame->getWon() << "\n";
-                        }
-                        fileOutB.close();
-                    }
-                }
-                break;
+            fileOut.close();
+        }
+    }
+}
+
+void Stats::logBalatroGame(const std::unique_ptr<Balatro> &myGame) {
+    //updating game log
+    balatroGames.push_back(std::make_unique<Balatro>(*myGame));
+    std::ofstream updatedBLog("balatro_log.csv");
+    for (const std::unique_ptr<Balatro> &game : balatroGames) {
+        updatedBLog << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
+        << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
+        << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
+        //do we need .getReason in stats.h? <- Yes, we're doing cases
+    }
+    updatedBLog.close();
+    //game will be put in topGames vector (and subsequently topgames.csv) if there are no top games yet
+    if (balatroTopGames.empty()) {
+        balatroTopGames.push_back(std::make_unique<Balatro>(*myGame));
+        std::ofstream fileOut("balatro_top_games.csv");
+        for (const std::unique_ptr<Balatro> &game : balatroTopGames){
+            fileOut << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
+            << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
+            << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
+        }
+        fileOut.close();
+    }
+    //created game is compared to the last game entered into topGames vector, as this will be the current best game. If new game is better, it is added to topGames and subsequently topgames.csv
+    else {
+        if (*myGame >= *balatroTopGames.back()) {
+            balatroTopGames.push_back(std::make_unique<Balatro>(*myGame));
+            std::ofstream fileOut("balatro_top_games.csv");
+            for (const std::unique_ptr<Balatro> &topGame : balatroTopGames) {
+                fileOut << topGame->getMonth() << "," << topGame->getYear() << "," << topGame->getDeck() << ","
+                << topGame->getStake() << "," << topGame->getScore() << "," << topGame->getTime() << ","
+                << topGame->getRound() << "," << topGame->getHand() << "," << topGame->getWon() << "\n";
             }
-        case States::UNSET:
-            std::cout << "No game chosen, logGame function void" << std::endl;
-            break;
-        default:
-            std::cout << "No state, logGame function void" << std::endl;
-            break;
+            fileOut.close();
+        }
     }
 }
 
@@ -232,7 +219,7 @@ void Stats::getStats(const int &chosen_state) {
                 int average_bombs = 0, average_time = 0, games_won = 0, logic = 0, misclick = 0, miscount = 0, chance = 0;
                 std::cout << std::endl << "Updating Stats . . . " << std::endl << std::endl;
                 //tallying numbers for stats
-                for (const std::unique_ptr<Game> &game : minesweeperGames) {
+                for (const std::unique_ptr<Minesweeper> &game : minesweeperGames) {
                     average_bombs += game->getScore();
                     average_time += game->getTime();
                     if (game->getWon()) games_won++;
@@ -291,7 +278,8 @@ void Stats::getStats(const int &chosen_state) {
             break;
         }
         case States::BALATRO: {
-            //TODO: implement balatro stats
+            //TODO: implement balatro stats, we should discuss what we want it to look like more
+            break;
         }
         case States::UNSET:
             std::cout << "No state selected, getStats void." << std::endl << std::endl;

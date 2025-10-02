@@ -1,6 +1,34 @@
 #include "balatro.h"
 #include <iostream>
 
+Balatro::Balatro() {
+    //TODO: set everything to zero
+}
+
+Balatro::Balatro(const int& month, const int& year, const int& deck, const int& stake, const int& score, const int& time, const int& round, const int& hand, const int& won) {
+    //TODO: finish this, should just assign everything to specified values. use var = static_cast<class>(input) to set enum vars. (see minesweeper constructor)
+}
+
+void Balatro::setDeck() {
+    //TODO: implement this. similar logic to Minesweeper::setReason()
+}
+
+void Balatro::setScore() {
+    //TODO: implement this. similar logic to Minesweeper::SetTime(), figure out way to accept E scores.
+}
+
+void Balatro::setTime() {
+    //TODO: implement this. represents ante. steal logic from Minesweeper::setTime(), if user gets past ante 8 (so to ante 9) won is set to true.
+}
+
+void Balatro::setRound() {
+    //TODO: implement this. similar logic to Minesweeper::setTime() but does not modify won.
+}
+
+void Balatro::setHand() {
+    //TODO: implement. steal logic from Minesweeper::setReason().
+}
+
 int Balatro::getDeck() const {
     //RED, BLUE, YELLOW, GREEN, BLACK, MAGIC, NEBULA, GHOST, ABANDONED
     //CHECKERED, ZODIAC, PAINTED, ANAGLYPH, PLASMA, ERRATIC
@@ -73,8 +101,5 @@ int Balatro::getSpecialValues(const int &value) {
             return round;
         case 3:
             return getHand();
-        default:
-            std::cout << "No valid value selected, getSpecialValues void" << std::endl;
-            break;
     }
 }
