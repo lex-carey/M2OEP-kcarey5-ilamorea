@@ -2,6 +2,7 @@
 #define M2OEP_STATS_H
 
 //Stats has minesweeper and balatro games
+//IXL pov: shouldn't minesweep and balatro have stats instead?
 #include "minesweeper.h"
 #include "balatro.h"
 
