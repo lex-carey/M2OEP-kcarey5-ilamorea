@@ -39,10 +39,14 @@ class Balatro : public Game {
         //steal logic from getReason()
         inline int getDeck() const;
 
+        inline int getStake() const;
+
         inline int getRound() const;
 
         //steal logic from getReason()
         inline int getHand() const;
+
+        inline int getSpecialValues(const int &value) override;
 
         //overload operators
 };

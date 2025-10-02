@@ -7,8 +7,5 @@ add_executable(M2OEP
                 main.cpp
                 game.cpp
         minesweeper.cpp
-        minesweeper.h
         balatro.cpp
-        balatro.h
-        stats.cpp
-        stats.h)
+        stats.cpp)

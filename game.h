@@ -1,6 +1,8 @@
 #ifndef M2OEP_GAME_H
 #define M2OEP_GAME_H
 
+#include <string>
+
 class Game {
 protected:
     int month, year, score, time;
@@ -70,6 +72,8 @@ public:
      * Returns true if the game was won, false otherwise.
      */
     inline bool getWon() const;
+
+    inline virtual int getSpecialValues(const int &value);
 
     friend bool operator < (const Game &g1, const Game &g2) {
         bool less = false;
