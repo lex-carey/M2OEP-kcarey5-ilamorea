@@ -3,12 +3,6 @@ project(M2OEP)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(M2OEP
-                main.cpp
-                game.cpp
-        minesweeper.cpp
-        minesweeper.h
-        balatro.cpp
-        balatro.h
-        stats.cpp
-        stats.h)
+add_executable(M2OEP main.cpp game.cpp minesweeper.cpp balatro.cpp stats.cpp)
+
+add_executable(Function_Testing testing.cpp minesweeper.cpp balatro.cpp game.cpp stats.cpp)

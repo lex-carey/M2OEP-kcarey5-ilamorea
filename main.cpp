@@ -1,4 +1,6 @@
-#include "game.cpp"
+#include "minesweeper.cpp"
+#include "balatro.cpp"
+#include "stats.cpp"
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -7,11 +9,8 @@
 
 using namespace std;
 
-void loadGames(const string &file_name, vector<Game> &games);
 void getMenuChoice(int &chosen_function);
 void getCorrect(char &correct);
-void logGame(Game &myGame, vector<Game> &games, vector <Game> &topGames);
-void getStats(const vector<Game> &games, const vector<Game> &topGames);
 
 int main() {
     bool quit = false;
