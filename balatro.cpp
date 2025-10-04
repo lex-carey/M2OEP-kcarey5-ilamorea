@@ -10,7 +10,172 @@ Balatro::Balatro(const int& month, const int& year, const int& deck, const int& 
 }
 
 void Balatro::setDeck() {
-    //TODO: implement this. similar logic to Minesweeper::setReason()
+    //Should be implemented - IXL!
+    //these are the all reasons I've found that I've lost games before so this is what I included
+    //numbers correspond to enum's int values REWORKING FROM THE MINESWEEPER setReason() FUNCT - IXL
+    std::cout << "Which deck did you select?" << std::endl <<
+            "0 = Not Tracking Deck" << std::endl <<
+            "1 = Red" << std::endl <<
+            "2 = Blue" << std::endl <<
+            "3 = Yellow" << std::endl <<
+            "4 = Green" << std::endl <<
+            "5 = Black" << std::endl <<
+            "6 = Magic" << std::endl <<
+            "7 = Nebula" << std::endl <<
+            "8 = Ghost" << std::endl <<
+            "9 = Abandoned" << std::endl <<
+            "10 = Checkered" << std::endl <<
+            "11 = Zodiac" << std::endl <<
+            "12 = Painted" << std::endl <<
+            "13 = Anaglyph" << std::endl <<
+            "14 = Plasma" << std::endl <<
+            "15 = Erratic" << std::endl <<
+            "Reason: ";
+    int chosen_deck = 0;
+    std::string choice;
+    bool loop = true;
+    while (loop) {
+        getline(std::cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        //removes leading zeros
+        while (choice[0] == '0') {
+            if (choice.length() == 1) break;
+            choice.erase(0, 1);
+        }
+        while (choice.length() == 0) {
+            std::cout << "No input. Please enter an integer between 0 and 4: ";
+            getline(std::cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+            while (choice[0] == '0') {
+                if (choice.length() == 1) break;
+                choice.erase(0, 1);
+            }
+        }
+        int count = 1;
+        for (char c : choice) {
+            if (!isdigit(c)) {
+                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                break;
+            }
+            count++;
+        }
+        if (count == (1 + choice.length())) {
+            std::stringstream ss;
+            int potential_reason;
+            ss << choice;
+            ss >> potential_reason;
+            if (potential_reason <= 4 && potential_reason >= 0) {
+                chosen_deck = potential_reason;
+                loop = false;
+            }
+            else {
+                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+            }
+        }
+    }
+    //setting reason
+    switch (chosen_deck) {
+        case 0:
+            deck = Decks::NOT_TRACKING;
+            std::cout << "Chosen deck: Not Tracking" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 1:
+            deck = Decks::RED;
+            std::cout << "Chosen deck: RED" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 2:
+            deck = Decks::BLUE;
+            std::cout << "Chosen deck: BLUE" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 3:
+            deck = Decks::YELLOW;
+            std::cout << "Chosen deck: YELLOW" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 4:
+            deck = Decks::GREEN;
+            std::cout << "Chosen deck: GREEN" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        default: break;
+
+        case 5:
+            deck = Decks::BLACK;
+        std::cout << "Chosen deck: BLACK" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+         break;
+
+        case 6:
+            deck = Decks::MAGIC;
+        std::cout << "Chosen deck: MAGIC" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+
+
+        case 7:
+            deck = Decks::NEBULA;
+        std::cout << "Chosen deck: NEBULA" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+
+        case 8:
+            deck = Decks::GHOST;
+        std::cout << "Chosen deck: GHOST" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 9:
+            deck = Decks::ABANDONED;
+        std::cout << "Chosen deck: ABANDONED" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 10:
+            deck = Decks::CHECKERED;
+        std::cout << "Chosen deck: CHECKERED" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 11:
+            deck = Decks::ZODIAC;
+        std::cout << "Chosen deck: ZODIAC" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 12:
+            deck = Decks::PAINTED;
+        std::cout << "Chosen deck: PAINTED" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 13:
+            deck = Decks::ANAGLYPH;
+        std::cout << "Chosen deck: ANAGLYPH" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 14:
+            deck = Decks::PLASMA;
+        std::cout << "Chosen deck: PLASMA" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 15:
+            deck = Decks::ERRATIC;
+        std::cout << "Chosen deck: ERRATIC" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+    }
+
+
 }
 
 void Balatro::setStake() {
