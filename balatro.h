@@ -3,8 +3,6 @@
 
 #include "game.h"
 
-//Balatro is-a Game
-
 class Balatro : public Game {
 private:
     /*
@@ -40,9 +38,17 @@ public:
      * Set Deck
      * Requires: Nothing
      * Modifies: deck
-     * Asks user what deck they played with and sets deck to that value.
+     * Asks user what deck they played with and sets deck to the corresponding enumerated value.
      */
     void setDeck();
+
+    /*
+     * Set Stake
+     * Requires: Nothing
+     * Modifies: stake
+     * Asks user what stake they were playing on and set stake to the corresponding enumerated value.
+     */
+    void setStake();
 
     /*
      * Set Score

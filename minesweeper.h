@@ -3,8 +3,6 @@
 
 #include "game.h"
 
-//Minesweeper is-a Game
-
 class Minesweeper : public Game {
     private:
         enum class Reasons {NOT_TRACKING, LOGIC, MISCLICK, MISCOUNT, CHANCE} reason;

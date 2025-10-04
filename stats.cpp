@@ -215,7 +215,7 @@ void Stats::getStats(const int &chosen_state) {
     state = static_cast<States>(chosen_state);
     switch (state) {
         case States::MINESWEEPER: {
-            std::cout << std::endl << "Chosen to view stats." << std::endl;
+            std::cout << std::endl << "Chosen Minesweeper." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             //checking that there are actually games to get stats for
             if (!minesweeperGames.empty()) {

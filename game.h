@@ -1,8 +1,6 @@
 #ifndef M2OEP_GAME_H
 #define M2OEP_GAME_H
 
-#include <string>
-
 class Game {
 protected:
     int month, year, score, time;

@@ -1,7 +1,4 @@
 #include "game.h"
-#include <thread>
-#include "iostream"
-using namespace std;
 
 Game::Game() {
     month = 0;

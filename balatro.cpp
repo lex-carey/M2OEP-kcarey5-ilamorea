@@ -13,6 +13,10 @@ void Balatro::setDeck() {
     //TODO: implement this. similar logic to Minesweeper::setReason()
 }
 
+void Balatro::setStake() {
+    //TODO: implement
+}
+
 void Balatro::setScore() {
     //TODO: implement this. similar logic to Minesweeper::SetTime(), figure out way to accept E scores.
 }
