@@ -1,6 +1,7 @@
 #include "minesweeper.h"
 #include <iostream>
 #include <thread>
+#include <sstream>
 using namespace std;
 
 Minesweeper::Minesweeper() {
@@ -63,7 +64,7 @@ void Minesweeper::setScore() {
             count++;
         }
         if (count == (1 + choice.length())) {
-            stringstream ss;
+            std::stringstream ss;
             int chosen_bombs;
             ss << choice;
             ss >> chosen_bombs;

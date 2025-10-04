@@ -4,7 +4,7 @@
 #include "minesweeper.h"
 #include "balatro.h"
 #include <vector>
-
+#include <memory>
 class Stats {
 private:
     enum class States {MINESWEEPER = 0, BALATRO = 1, UNSET = 2} state;
