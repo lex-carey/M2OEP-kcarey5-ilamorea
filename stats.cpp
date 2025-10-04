@@ -179,9 +179,9 @@ void Stats::logBalatroGame(const std::unique_ptr<Balatro> &myGame) {
     balatroGames.push_back(std::make_unique<Balatro>(*myGame));
     std::ofstream updatedBLog("balatro_log.csv");
     for (const std::unique_ptr<Balatro> &game : balatroGames) {
-        updatedBLog << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
-        << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
-        << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
+        updatedBLog << game->getMonth() << "," << game->getYear() << "," << game->getDeck() << ","
+        << game->getStake() << "," << game->getScore() << "," << game->getTime() << ","
+        << game->getRound() << "," << game->getHand() << "," << game->getWon() << "\n";
         //do we need .getReason in stats.h? <- Yes, we're doing cases
     }
     updatedBLog.close();
@@ -190,9 +190,9 @@ void Stats::logBalatroGame(const std::unique_ptr<Balatro> &myGame) {
         balatroTopGames.push_back(std::make_unique<Balatro>(*myGame));
         std::ofstream fileOut("balatro_top_games.csv");
         for (const std::unique_ptr<Balatro> &game : balatroTopGames){
-            fileOut << game->getMonth() << "," << game->getYear() << "," << game->getSpecialValues(0) << ","
-            << game->getSpecialValues(1) << "," << game->getScore() << "," << game->getTime() << ","
-            << game->getSpecialValues(2) << "," << game->getSpecialValues(3) << "," << game->getWon() << "\n";
+            fileOut << game->getMonth() << "," << game->getYear() << "," << game->getDeck() << ","
+            << game->getStake() << "," << game->getScore() << "," << game->getTime() << ","
+            << game->getRound() << "," << game->getHand() << "," << game->getWon() << "\n";
         }
         fileOut.close();
     }
@@ -226,7 +226,7 @@ void Stats::getStats(const int &chosen_state) {
                     average_bombs += game->getScore();
                     average_time += game->getTime();
                     if (game->getWon()) games_won++;
-                    switch (game->getSpecialValues(0)) {
+                    switch (game->getReason()) {
                         case 1:
                             logic++;
                             break;

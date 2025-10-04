@@ -44,8 +44,4 @@ bool Game::getWon() const {
     return won;
 }
 
-int Game::getSpecialValues(const int &value) {
-    return 0;
-}
-
 

@@ -2,7 +2,7 @@
 #include <iostream>
 
 Balatro::Balatro() {
-    //TODO: set everything to zero
+    //TODO: see documentation in header file
 }
 
 Balatro::Balatro(const int& month, const int& year, const int& deck, const int& stake, const int& score, const int& time, const int& round, const int& hand, const int& won) {
@@ -88,18 +88,4 @@ int Balatro::getHand() const {
         case Hands::HIGH_CARD: return 12;
     }
 
-}
-
-int Balatro::getSpecialValues(const int &value) {
-    //deck = 0, stake = 1, round = 2, hand = 3
-    switch (value) {
-        case 0:
-            return getDeck();
-        case 1:
-            return getStake();
-        case 2:
-            return round;
-        case 3:
-            return getHand();
-    }
 }
