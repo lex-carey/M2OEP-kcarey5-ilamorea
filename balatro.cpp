@@ -84,7 +84,7 @@ void Balatro::setDeck() {
             }
         }
     }
-    //setting reason
+    //setting deck
     switch (chosen_deck) {
         case 0:
             deck = Decks::NOT_TRACKING;
@@ -183,7 +183,65 @@ void Balatro::setStake() {
 }
 
 void Balatro::setScore() {
-    //TODO: implement this. similar logic to Minesweeper::SetTime(), figure out way to accept E scores.
+    //TODO:  similar logic to Minesweeper::SetTime(), figure out way to accept E scores. also TODO Alexis, is this finished? -IXL
+    std::string choice;
+    bool loop = true;
+    //999 seconds is the maximum tracked time on Minesweeper - for balatro, there is no way you last 999 rounds, so it's also safe.
+    std::cout << "How many rounds did the game last? (Please pick an integer between 0 and 999): ";
+    while (loop) {
+        getline(std::cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        //removes leading zeros
+        while (choice[0] == '0') {
+            if (choice.length() == 1) break;
+            choice.erase(0, 1);
+        }
+        while (choice.length() == 0) {
+            std::cout << "No input. Please enter an integer between 0 and 999: ";
+            getline(std::cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+            while (choice[0] == '0') {
+                if (choice.length() == 1) break;
+                choice.erase(0, 1);
+            }
+        }
+        int count = 1;
+        for (char c : choice) {
+            if (!isdigit(c)) {
+                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+                break;
+            }
+            count++;
+        }
+        if (count == (1 + choice.length())) {
+            std::stringstream ss;
+            int chosen_time;
+            ss << choice;
+            ss >> chosen_time;
+            //this condition being satisfied is the only way for the input validation loop to end
+            if (chosen_time <= 999 && chosen_time >= 0) {
+                time = chosen_time;
+                loop = false;
+            }
+            else {
+                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+            }
+        }
+    }
+    std::cout << "Your game took " << time << " rounds!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
+
 }
 
 void Balatro::setTime() {
@@ -192,6 +250,7 @@ void Balatro::setTime() {
 
 void Balatro::setRound() {
     //TODO: implement this. similar logic to Minesweeper::setTime() but does not modify won.
+
 }
 
 void Balatro::setHand() {
