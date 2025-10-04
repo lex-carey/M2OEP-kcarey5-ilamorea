@@ -5,7 +5,7 @@
 
 Stats::Stats() {
     state = States::UNSET;
-    //Initializing minesweeper_games
+    //Initializing minesweeperGames
     std::ifstream m_log("minesweeper_log.csv");
     if (m_log) {
         int month, year, score, time, reason, won;
@@ -28,12 +28,13 @@ Stats::Stats() {
 
             m_log >> won;
             m_log >> std::ws;
-            // this is gonna need to import these variables
+
             minesweeperGames.push_back(std::make_unique<Minesweeper>(month, year, score, time, reason, won));
 
             if (m_log.peek() == EOF) m_log.close();
         }
     }
+    //initializing minesweeperTopGames
     std::ifstream m_top_log("minesweeper_top_games.csv");
     if (m_top_log) {
         int month, year, score, time, reason, won;
@@ -56,12 +57,13 @@ Stats::Stats() {
 
             m_top_log >> won;
             m_top_log >> std::ws;
-            // this is gonna need to import these variables
+
             minesweeperTopGames.push_back(std::make_unique<Minesweeper>(month, year, score, time, reason, won));
 
             if (m_top_log.peek() == EOF) m_top_log.close();
         }
     }
+    //initializing balatroGames
     std::ifstream b_log("balatro_log.csv");
     if (b_log) {
         int month, year, deck, stake, score, time, round, hand, won;
@@ -93,12 +95,13 @@ Stats::Stats() {
 
             b_log >> won;
             b_log >> std::ws;
-            // this is gonna need to import these variables
+
             balatroGames.push_back(std::make_unique<Balatro>(month, year, deck, stake, score, time, round, hand, won));
 
             if (b_log.peek() == EOF) b_log.close();
         }
     }
+    //initializing balatroTopGames
     std::ifstream b_top_log("balatro_top_games.csv");
     if (b_top_log) {
         int month, year, deck, stake, score, time, round, hand, won;
@@ -130,7 +133,7 @@ Stats::Stats() {
 
             b_top_log >> won;
             b_top_log >> std::ws;
-            // this is gonna need to import these variables
+
             balatroTopGames.push_back(std::make_unique<Balatro>(month, year, deck, stake, score, time, round, hand, won));
 
             if (b_top_log.peek() == EOF) b_top_log.close();
