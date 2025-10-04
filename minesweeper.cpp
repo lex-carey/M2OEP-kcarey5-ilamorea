@@ -255,10 +255,3 @@ int Minesweeper::getReason() const {
             return 4;
     }
 }
-
-int Minesweeper::getSpecialValues(const int &value) {
-    if (value == 0) {
-        return getReason();
-    }
-    return 0;
-}

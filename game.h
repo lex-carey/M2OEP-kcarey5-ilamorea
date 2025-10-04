@@ -21,7 +21,8 @@ public:
      * Overloaded Constructor
      * Requires: Five integers
      * Modifies: month, year, score, time, won
-     * Creates a new game using the values passed into the function. The integer value won is static cast onto the variable.
+     * Creates a new game using the values passed into the function.
+     * The integer value won is static cast onto the variable.
      */
     Game(const int &month, const int &year, const int &score, const int &time, const int &won);
 
@@ -73,8 +74,6 @@ public:
      */
     bool getWon() const;
 
-    virtual int getSpecialValues(const int &value);
-
     friend bool operator < (const Game &g1, const Game &g2) {
         bool less = false;
         if (g1.getTime() > g2.getTime()) {
@@ -109,8 +108,8 @@ public:
         return (g1.getTime() == g2.getTime() && g1.getScore() != g2.getScore());
     }
 
-    friend bool operator != (const Game &g1, const Game &g2) {
-        return (g1.getTime() != g2.getTime() || g1.getScore() != g2.getScore());
+    friend bool operator != (const Game &b1, const Game &b2) {
+        return (b1.getTime() != b2.getTime() || b1.getScore() != b2.getScore());
     }
 
     friend bool operator <= (const Game &g1, const Game &g2) {
