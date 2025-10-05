@@ -321,6 +321,159 @@ std::string choice;
 
 void Balatro::setHand() {
     //TODO: implement. steal logic from Minesweeper::setReason().
+    std::cout << "What was your most played hand?" << std::endl <<
+            "0 = Not Tracking Hand" << std::endl <<
+            "1 = Flush Five" << std::endl <<
+            "2 = Flush House" << std::endl <<
+            "3 = Five of a kind" << std::endl <<
+            "4 = Royal Flush" << std::endl <<
+            "5 = Straight Flush" << std::endl <<
+            "6 = Four of a kind" << std::endl <<
+            "7 = Full House" << std::endl <<
+            "8 = Flush" << std::endl <<
+            "9 = Straight" << std::endl <<
+            "10 = Three of a kind" << std::endl <<
+            "11 = Two Pair" << std::endl <<
+            "12 = Pair" << std::endl <<
+            "13 = High card" << std::endl <<
+            "Reason: ";
+    int chosen_hand = 0;
+    std::string choice;
+    bool loop = true;
+    while (loop) {
+        getline(std::cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        //removes leading zeros
+        while (choice[0] == '0') {
+            if (choice.length() == 1) break;
+            choice.erase(0, 1);
+        }
+        while (choice.length() == 0) {
+            std::cout << "No input. Please enter an integer between 0 and 4: ";
+            getline(std::cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+            while (choice[0] == '0') {
+                if (choice.length() == 1) break;
+                choice.erase(0, 1);
+            }
+        }
+        int count = 1;
+        for (char c : choice) {
+            if (!isdigit(c)) {
+                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                break;
+            }
+            count++;
+        }
+        if (count == (1 + choice.length())) {
+            std::stringstream ss;
+            int potential_reason;
+            ss << choice;
+            ss >> potential_reason;
+            if (potential_reason <= 4 && potential_reason >= 0) {
+                chosen_hand = potential_reason;
+                loop = false;
+            }
+            else {
+                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+            }
+        }
+    }
+    //setting deck
+    switch (chosen_hand) {
+        case 0:
+            hand = Hands::NOT_TRACKING;
+            std::cout << "Most common hand: Not Tracking" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 1:
+            hand = Hands::FLUSH_FIVE;
+            std::cout << "Most common hand: FLUSH FIVE" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 2:
+            hand = Hands::FLUSH_HOUSE;
+            std::cout << "Most common hand: FLUSH HOUSE" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 3:
+            hand = Hands::FIVE_OF_A_KIND;
+            std::cout << "Most common hand: FIVE OF A KIND" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 4:
+            hand = Hands::ROYAL_FLUSH;
+            std::cout << "Most common hand: ROYAL FLUSH" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        default: break;
+
+        case 5:
+            hand = Hands::STRAIGHT_FLUSH;
+        std::cout << "Most common hand: STRAIGHT FLUSH" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+         break;
+
+        case 6:
+            hand = Hands::FOUR_OF_A_KIND;
+        std::cout << "Most common hand: FOUR OF A KIND" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+
+
+        case 7:
+            hand = Hands::FULL_HOUSE;
+        std::cout << "Most common hand: FULL HOUSE" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+
+        case 8:
+            hand = Hands::FLUSH;
+        std::cout << "Most common hand: FLUSH" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 9:
+            hand = Hands::STRAIGHT;
+        std::cout << "Most common hand: STRAIGHT" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 10:
+            hand = Hands::THREE_OF_A_KIND;
+        std::cout << "Most common hand: THREE OF A KIND" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 11:
+            hand = Hands::TWO_PAIR;
+        std::cout << "Most common hand: TWO PAIR" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 12:
+            hand = Hands::PAIR;
+        std::cout << "Most common hand: PAIR" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+        case 13:
+            hand = Hands::HIGH_CARD;
+        std::cout << "Most common hand: HIGH CARD" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        break;
+
+    }
+
+
+
 }
 
 int Balatro::getDeck() const {
