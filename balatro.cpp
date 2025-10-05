@@ -1,5 +1,7 @@
 #include "balatro.h"
 #include <iostream>
+#include <sstream>
+#include <thread>
 
 Balatro::Balatro() {
     //
@@ -188,7 +190,114 @@ void Balatro::setDeck() {
 }
 
 void Balatro::setStake() {
-    //TODO: implement
+    //numbers correspond to enum's int values
+    std::cout << "What stake did you play?" << std::endl <<
+            "0 = White" << std::endl <<
+            "1 = Red" << std::endl <<
+            "2 = Green" << std::endl <<
+            "3 = Black" << std::endl <<
+            "4 = Blue" << std::endl <<
+            "5 = Purple" << std::endl <<
+            "6 = Orange" << std::endl <<
+            "7 = Gold" << std::endl <<
+            "Stake: ";
+    int chosen_stake = 0;
+    std::string choice;
+    bool loop = true;
+    while (loop) {
+        getline(std::cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        //removes leading zeros
+        while (choice[0] == '0') {
+            if (choice.length() == 1) break;
+            choice.erase(0, 1);
+        }
+        while (choice.length() == 0) {
+            std::cout << "No input. Please enter an integer between 0 and 7: ";
+            getline(std::cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+            while (choice[0] == '0') {
+                if (choice.length() == 1) break;
+                choice.erase(0, 1);
+            }
+        }
+        int count = 1;
+        for (char c : choice) {
+            if (!isdigit(c)) {
+                std::cout << "Invalid input. Please enter an integer between 0 and 7: ";
+                break;
+            }
+            count++;
+        }
+        if (count == (1 + choice.length())) {
+            std::stringstream ss;
+            int potential_stake;
+            ss << choice;
+            ss >> potential_stake;
+            if (potential_stake <= 7 && potential_stake >= 0) {
+                chosen_stake = potential_stake;
+                loop = false;
+            }
+            else {
+                std::cout << "Invalid input. Please enter an integer between 0 and 7: ";
+            }
+        }
+    }
+    //setting stake
+    switch (chosen_stake) {
+    case 0:
+            stake = Stakes::WHITE;
+            std::cout << "Chosen stake: White" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 1:
+            stake = Stakes::RED;
+            std::cout << "Chosen stake: Red" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 2:
+            stake = Stakes::GREEN;
+            std::cout << "Chosen stake: Green" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 3:
+            stake = Stakes::BLACK;
+            std::cout << "Chosen stake: Black" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 4:
+            stake = Stakes::BLUE;
+            std::cout << "Chosen stake: Blue" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 5:
+            stake = Stakes::PURPLE;
+            std::cout << "Chosen stake: Purple" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 6:
+            stake = Stakes::ORANGE;
+            std::cout << "Chosen stake: Blue" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 7:
+            stake = Stakes::GOLD;
+            std::cout << "Chosen stake: Gold" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        default: break;
+    }
 }
 
 void Balatro::setScore() {
