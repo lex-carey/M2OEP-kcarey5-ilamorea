@@ -2,7 +2,16 @@
 #include <iostream>
 
 Balatro::Balatro() {
-    //TODO: see documentation in header file
+    //
+    month = 1;
+    year = 2025;
+    deck = Decks::RED;
+    stake = Stakes::WHITE;
+    score = 0;
+    time = 0;
+    round = 0;
+    hand = Hands::HIGH_CARD;
+    won = false;
 }
 
 Balatro::Balatro(const int& month, const int& year, const int& deck, const int& stake, const int& score, const int& time, const int& round, const int& hand, const int& won) {
@@ -239,7 +248,7 @@ void Balatro::setScore() {
             }
         }
     }
-    std::cout << "Your game scorede" << time << " points!" << std::endl;
+    std::cout << "Your game scored" << time << " points!" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
 
 }
