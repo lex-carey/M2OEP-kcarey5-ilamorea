@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <thread>
-
+#include <string>
 Balatro::Balatro() {
     setDate(0, 0);
     deck = Decks::NOT_TRACKING;

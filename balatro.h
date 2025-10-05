@@ -2,7 +2,7 @@
 #define M2OEP_BALATRO_H
 
 #include "game.h"
-
+#include <string>
 class Balatro : public Game {
 private:
     /*
