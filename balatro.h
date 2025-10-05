@@ -3,6 +3,7 @@
 
 #include "game.h"
 #include <string>
+
 class Balatro : public Game {
 private:
     /*
@@ -135,7 +136,29 @@ public:
 
     std::string getHandString() const;
 
-    //TODO: overload equality operators
+    friend bool operator > (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() > rhs.getScore();
+    }
+
+    friend bool operator < (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() < rhs.getScore();
+    }
+
+    friend bool operator == (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() == rhs.getScore();
+    }
+
+    friend bool operator != (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() != rhs.getScore();
+    }
+
+    friend bool operator <= (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() <= rhs.getScore();
+    }
+
+    friend bool operator >= (const Balatro &lhs, const Balatro &rhs) {
+        return lhs.getScore() >= rhs.getScore();
+    }
 };
 
 

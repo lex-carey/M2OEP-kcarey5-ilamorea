@@ -1,8 +1,9 @@
-#include "minesweeper.cpp"
-#include "balatro.cpp"
-#include "stats.cpp"
+#include "minesweeper.h"
+#include "balatro.h"
+#include "stats.h"
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 using namespace std;
 
@@ -47,7 +48,7 @@ int main() {
                     }
                     if (chosen_game == 1) {
                         cout << endl << "Chosen Balatro." << endl;
-                        this_thread::sleep_for(chrono::milliseconds(600));
+                        this_thread::sleep_for(chrono::milliseconds(1500));
                         Balatro balatroGame = Balatro();
                         //next three lines pull month and year from system and set month and year using setDate method
                         time_t now = time(nullptr);

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <iomanip>
 
 Stats::Stats() {
     state = States::UNSET;
@@ -366,8 +367,8 @@ void Stats::getStakeStats(Balatro &balatro) {
         }
         //calculating averages
         avg_score = avg_score/stakeGames.size();
-        avg_time = avg_time / stakeGames.size();
-        avg_round = avg_round / stakeGames.size();
+        avg_time = avg_time/stakeGames.size();
+        avg_round = avg_round/stakeGames.size();
         int most_played_deck = 0, most_played_hand = 0;
         int highest_deck = deck[0], index = 0;
         //determining most played deck for stake
@@ -391,22 +392,22 @@ void Stats::getStakeStats(Balatro &balatro) {
         }
         balatro.setHand(most_played_hand);
         //printing stats
-        std::cout << std::endl << "You have played " << stakeGames.size() << " games of balatro at this stake!" << std::endl << std::endl;
+        std::cout << "You have played " << stakeGames.size() << " games of balatro at this stake!" << std::endl << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-        if (games_won > 0) std::cout << "Out of these games you have won " << games_won << "!" << std::endl << std::endl;
+        if (games_won > 0) std::cout << "Out of these games, you have won " << games_won << " of them!" << std::endl << std::endl;
         else std::cout << "You haven't won any games at this stake yet. Keep trying and you'll get your first!" << std::endl << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         std::cout << "Your most played deck on this stake is the " << balatro.getDeckString() << " deck. You have played " << highest_deck << " games with this deck at this stake so far!" << std::endl << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         std::cout << "Your most played hand on this stake is " << balatro.getHandString() << ". You have played " << highest_hand << " games with this hand type at this stake so far!" << std::endl << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-        std::cout << "Your average ante and round at this stake is ante " << avg_time << " round " << avg_round << ". Your average score at this stake is " << avg_score << std::endl << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        std::cout << "Your average ante and round at this stake is ante " << avg_time << " round " << avg_round << ". Your average best hand score at this stake is " << avg_score << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         std::cout << "Your best game was on " << stakeTopGames.back().getMonth() << "/" << stakeTopGames.back().getYear() <<
                     ". You played with the " << stakeTopGames.back().getDeckString() << " deck and you got to ante " <<
                     stakeTopGames.back().getTime() << " round " << stakeTopGames.back().getRound() << ". Your most played hand this game was " << stakeTopGames.back().getHandString() <<
-                    "and your best hand scored " << stakeTopGames.back().getScore() << " points!" << std::endl << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+                    ", and your best hand scored " << stakeTopGames.back().getScore() << " points!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
         std::cout << "Well, those are all the stats I have for you right now. Feel free to log more games and check back for updates!" << std::endl << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     }
@@ -415,5 +416,3 @@ void Stats::getStakeStats(Balatro &balatro) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1500));
     }
 }
-
-

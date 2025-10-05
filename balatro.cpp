@@ -3,6 +3,8 @@
 #include <sstream>
 #include <thread>
 #include <string>
+#include <algorithm>
+
 Balatro::Balatro() {
     setDate(0, 0);
     deck = Decks::NOT_TRACKING;
@@ -30,8 +32,9 @@ void Balatro::setDeck() {
     //Should be implemented - IXL!
     //these are the all reasons I've found that I've lost games before so this is what I included
     //numbers correspond to enum's int values REWORKING FROM THE MINESWEEPER setReason() FUNCT - IXL
-    std::cout << "Which deck did you select?" << std::endl <<
-            "0 = Not Tracking Deck" << std::endl <<
+    std::cout << "Which deck did you play with?" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std:: cout << "0 = Not Tracking Deck" << std::endl <<
             "1 = Red" << std::endl <<
             "2 = Blue" << std::endl <<
             "3 = Yellow" << std::endl <<
@@ -47,7 +50,7 @@ void Balatro::setDeck() {
             "13 = Anaglyph" << std::endl <<
             "14 = Plasma" << std::endl <<
             "15 = Erratic" << std::endl <<
-            "Reason: ";
+            "Deck: ";
     //int value of Deck::NOT_TRACKING
     int chosen_deck = 0;
     std::string choice;
@@ -93,7 +96,7 @@ void Balatro::setDeck() {
             int potential_reason;
             ss << choice;
             ss >> potential_reason;
-            if (potential_reason <= 4 && potential_reason >= 0) {
+            if (potential_reason <= 15 && potential_reason >= 0) {
                 chosen_deck = potential_reason;
                 loop = false;
             }
@@ -315,12 +318,9 @@ void Balatro::setStake(const int &i) {
 }
 
 void Balatro::setScore() {
-    //TODO:  OOPS ONLY HALF DONEsimilar logic to Minesweeper::SetTime(), figure out way to accept E scores. also TODO Alexis, is this finished? -IXL
-    //this is super unfinished + haven't figured out E score thing yet, tomorrow problem -lex
     std::string choice;
     bool loop = true;
-    //999 seconds is the maximum tracked time on Minesweeper - for balatro, there is no way you last 999 rounds, so it's also safe.
-    std::cout << "How many points did your last game score? (Please pick an integer between 0 and 999): ";
+    std::cout << "How many points did your last game score? (Please enter an integer greater than zero): ";
     while (loop) {
         getline(std::cin, choice);
         //following two while-loops remove whitespace
@@ -336,7 +336,7 @@ void Balatro::setScore() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            std::cout << "No input. Please enter an integer between 0 and 999: ";
+            std::cout << "No input. Please enter an integer greater than zero: ";
             getline(std::cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -352,29 +352,28 @@ void Balatro::setScore() {
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+                std::cout << "Invalid input. Please enter an integer greater than zero: ";
                 break;
             }
             count++;
         }
         if (count == (1 + choice.length())) {
             std::stringstream ss;
-            int chosen_time;
+            int chosen_score;
             ss << choice;
-            ss >> chosen_time;
+            ss >> chosen_score;
             //this condition being satisfied is the only way for the input validation loop to end
-            if (chosen_time <= 999 && chosen_time >= 0) {
-                time = chosen_time;
+            if (chosen_score >= 0) {
+                score = chosen_score;
                 loop = false;
             }
             else {
-                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+                std::cout << "Invalid input. Please enter an integer greater than zero: ";
             }
         }
     }
-    std::cout << "Your highest hand score was " << getScore() << "!" << std::endl;
+    std::cout << "Your highest hand score was " << score << "!" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
-
 }
 
 void Balatro::setTime() {
@@ -437,6 +436,8 @@ void Balatro::setTime() {
     if (time > 8) won = true;
     std::cout << "You got to ante " << time << "!" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    if (won == true) std::cout << "Congrats on your win!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
 }
 
 void Balatro::setRound() {
@@ -482,12 +483,12 @@ void Balatro::setRound() {
         }
         if (count == (1 + choice.length())) {
             std::stringstream ss;
-            int chosen_time;
+            int chosen_round;
             ss << choice;
-            ss >> chosen_time;
+            ss >> chosen_round;
             //this condition being satisfied is the only way for the input validation loop to end
-            if (chosen_time <= 3 && chosen_time >= 1) {
-                time = chosen_time;
+            if (chosen_round <= 3 && chosen_round >= 1) {
+                round = chosen_round;
                 loop = false;
             }
             else {
@@ -500,8 +501,9 @@ void Balatro::setRound() {
 }
 
 void Balatro::setHand() {
-    std::cout << "What was your most played hand?" << std::endl <<
-            "0 = Not Tracking Most Played Hand" << std::endl <<
+    std::cout << "What was your most played hand?" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std:: cout << "0 = Not Tracking Most Played Hand" << std::endl <<
             "1 = Flush Five" << std::endl <<
             "2 = Flush House" << std::endl <<
             "3 = Five of a Kind" << std::endl <<
@@ -561,12 +563,12 @@ void Balatro::setHand() {
             int potential_reason;
             ss << choice;
             ss >> potential_reason;
-            if (potential_reason <= 4 && potential_reason >= 0) {
+            if (potential_reason <= 13 && potential_reason >= 0) {
                 chosen_hand = potential_reason;
                 loop = false;
             }
             else {
-                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 13: ";
             }
         }
     }
