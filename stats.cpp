@@ -281,7 +281,61 @@ void Stats::getStats(const int &chosen_state) {
             break;
         }
         case States::BALATRO: {
-            //TODO: implement balatro stats, we should discuss what we want it to look like more
+            std::cout << std::endl << "Chosen Balatro." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            //checking that there are actually games to get stats for
+            if (!balatroGames.empty()) {
+                std::cout << std::endl << "Updating Stats . . . " << std::endl << std::endl;
+                std::vector<Balatro> white, red, green, black, blue, purple, orange, gold;
+                for (std::unique_ptr<Balatro> &game : balatroGames) {
+                    switch(game->getStake()) {
+                        case 0: white.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 1: red.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 2: green.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 3: black.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 4: blue.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 5: purple.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 6: orange.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        case 7: gold.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
+                        default: break;
+                    }
+                    Balatro balatro = Balatro();
+                    std::cout << "What stake would you like to view stats for?" << std::endl;
+                    balatro.setStake(1);
+                    switch(balatro.getStake()) {
+                    case 0: {
+                            std::cout << "Chosen White." << std::endl << std::endl;
+                        }
+                    case 1: {
+                            std::cout << "Chosen Red." << std::endl << std::endl;
+                        }
+                    case 2: {
+                            std::cout << "Chosen Green." << std::endl << std::endl;
+                        }
+                        case 3: {
+
+                        }
+                        case 4: {
+
+                        }
+                        case 5: {
+
+                        }
+                        case 6: {
+                            std::cout << "Chosen Gold" << std::endl << std::endl;
+                        }
+                    case 7:
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            else {
+                std::cout << "You haven't logged any games yet! Log a game first to see your stats :)" << std::endl << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+            }
             break;
         }
         case States::UNSET:

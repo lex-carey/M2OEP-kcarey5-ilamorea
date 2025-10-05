@@ -9,8 +9,8 @@ private:
      * Inherited Vars: score, time, won
      * Score represents best hand, time represents ante.
      */
-    enum class Decks {RED, BLUE, YELLOW, GREEN, BLACK, MAGIC, NEBULA, GHOST, ABANDONED, CHECKERED, ZODIAC, PAINTED, ANAGLYPH, PLASMA, ERRATIC, UNSET} deck;
-    enum class Hands {FLUSH_FIVE, FLUSH_HOUSE, FIVE_OF_A_KIND, ROYAL_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, PAIR, HIGH_CARD, UNSET} hand;
+    enum class Decks {NOT_TRACKING, RED, BLUE, YELLOW, GREEN, BLACK, MAGIC, NEBULA, GHOST, ABANDONED, CHECKERED, ZODIAC, PAINTED, ANAGLYPH, PLASMA, ERRATIC} deck;
+    enum class Hands {NOT_TRACKING, FLUSH_FIVE, FLUSH_HOUSE, FIVE_OF_A_KIND, ROYAL_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND, FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, PAIR, HIGH_CARD} hand;
     enum class Stakes {WHITE, RED, GREEN, BLACK, BLUE, PURPLE, ORANGE, GOLD, UNSET} stake;
     int round;
 
@@ -19,8 +19,7 @@ public:
      * Default Constructor
      * Requires: Nothing
      * Modifies: month, year, deck, stake, score, time, round, hand, won
-     * Sets all integer variables to zero, deck to red, stake to white,
-     * hand to high card, and won to false.
+     * Sets all integer variables to zero, hand and deck to NOT_TRACKING, and stake to UNSET.
      */
     Balatro();
 
@@ -48,7 +47,7 @@ public:
      * Modifies: stake
      * Asks user what stake they were playing on and set stake to the corresponding enumerated value.
      */
-    void setStake();
+    void setStake(const int &i);
 
     /*
      * Set Score

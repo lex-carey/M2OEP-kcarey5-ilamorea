@@ -55,7 +55,7 @@ int main() {
                         balatroGame.setDate((1 + localTime->tm_mon),(1900 + localTime->tm_year));
                         while (correct == 'n') {
                             balatroGame.setDeck();
-                            balatroGame.setStake();
+                            balatroGame.setStake(0);
                             balatroGame.setScore();
                             balatroGame.setTime();
                             balatroGame.setRound();

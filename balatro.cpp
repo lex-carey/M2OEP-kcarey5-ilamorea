@@ -4,16 +4,15 @@
 #include <thread>
 
 Balatro::Balatro() {
-    //
-    month = 1;
-    year = 2025;
-    deck = Decks::RED;
-    stake = Stakes::WHITE;
+    setDate(0, 0);
+    deck = Decks::NOT_TRACKING;
+    stake = Stakes::UNSET;
     score = 0;
     time = 0;
     round = 0;
-    hand = Hands::HIGH_CARD;
+    hand = Hands::NOT_TRACKING;
     won = false;
+
 }
 
 Balatro::Balatro(const int& month, const int& year, const int& deck, const int& stake, const int& score, const int& time, const int& round, const int& hand, const int& won) {
@@ -42,6 +41,7 @@ void Balatro::setDeck() {
             "14 = Plasma" << std::endl <<
             "15 = Erratic" << std::endl <<
             "Reason: ";
+    //int value of Deck::NOT_TRACKING
     int chosen_deck = 0;
     std::string choice;
     bool loop = true;
@@ -60,7 +60,7 @@ void Balatro::setDeck() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            std::cout << "No input. Please enter an integer between 0 and 4: ";
+            std::cout << "No input. Please enter an integer between 0 and 15: ";
             getline(std::cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -76,7 +76,7 @@ void Balatro::setDeck() {
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 15: ";
                 break;
             }
             count++;
@@ -91,7 +91,7 @@ void Balatro::setDeck() {
                 loop = false;
             }
             else {
-                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 15: ";
             }
         }
     }
@@ -99,109 +99,112 @@ void Balatro::setDeck() {
     switch (chosen_deck) {
         case 0:
             deck = Decks::NOT_TRACKING;
-            std::cout << "Chosen deck: Not Tracking" << std::endl;
+            std::cout << "Chose to not track deck." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 1:
             deck = Decks::RED;
-            std::cout << "Chosen deck: RED" << std::endl;
+            std::cout << "Chosen deck: Red" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 2:
             deck = Decks::BLUE;
-            std::cout << "Chosen deck: BLUE" << std::endl;
+            std::cout << "Chosen deck: Blue" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 3:
             deck = Decks::YELLOW;
-            std::cout << "Chosen deck: YELLOW" << std::endl;
+            std::cout << "Chosen deck: Yellow" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 4:
             deck = Decks::GREEN;
-            std::cout << "Chosen deck: GREEN" << std::endl;
+            std::cout << "Chosen deck: Green" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
-        default: break;
-
         case 5:
             deck = Decks::BLACK;
-        std::cout << "Chosen deck: BLACK" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-         break;
-
+            std::cout << "Chosen deck: Black" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 6:
             deck = Decks::MAGIC;
-        std::cout << "Chosen deck: MAGIC" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-
-
+            std::cout << "Chosen deck: Magic" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 7:
             deck = Decks::NEBULA;
-        std::cout << "Chosen deck: NEBULA" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Nebula" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
 
         case 8:
             deck = Decks::GHOST;
-        std::cout << "Chosen deck: GHOST" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Ghost" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 9:
             deck = Decks::ABANDONED;
-        std::cout << "Chosen deck: ABANDONED" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Abandoned" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 10:
             deck = Decks::CHECKERED;
-        std::cout << "Chosen deck: CHECKERED" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Checkered" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 11:
             deck = Decks::ZODIAC;
-        std::cout << "Chosen deck: ZODIAC" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Zodiac" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 12:
             deck = Decks::PAINTED;
-        std::cout << "Chosen deck: PAINTED" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Painted" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 13:
             deck = Decks::ANAGLYPH;
-        std::cout << "Chosen deck: ANAGLYPH" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Anaglyph" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 14:
             deck = Decks::PLASMA;
-        std::cout << "Chosen deck: PLASMA" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
+            std::cout << "Chosen deck: Plasma" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
         case 15:
             deck = Decks::ERRATIC;
-        std::cout << "Chosen deck: ERRATIC" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            std::cout << "Chosen deck: Erratic" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
         break;
     }
-
-
 }
 
-void Balatro::setStake() {
+void Balatro::setStake(const int &i) {
     //numbers correspond to enum's int values
-    std::cout << "What stake did you play?" << std::endl <<
-            "0 = White" << std::endl <<
-            "1 = Red" << std::endl <<
-            "2 = Green" << std::endl <<
-            "3 = Black" << std::endl <<
-            "4 = Blue" << std::endl <<
-            "5 = Purple" << std::endl <<
-            "6 = Orange" << std::endl <<
-            "7 = Gold" << std::endl <<
-            "Stake: ";
-    int chosen_stake = 0;
+    if (i == 0) std::cout << "What stake did you play?" << std::endl <<
+                            "0 = White" << std::endl <<
+                            "1 = Red" << std::endl <<
+                            "2 = Green" << std::endl <<
+                            "3 = Black" << std::endl <<
+                            "4 = Blue" << std::endl <<
+                            "5 = Purple" << std::endl <<
+                            "6 = Orange" << std::endl <<
+                            "7 = Gold" << std::endl <<
+                            "Stake: ";
+    if (i == 1) std::cout << "What stake would you like to see stats for?" << std::endl <<
+                            "0 = White" << std::endl <<
+                            "1 = Red" << std::endl <<
+                            "2 = Green" << std::endl <<
+                            "3 = Black" << std::endl <<
+                            "4 = Blue" << std::endl <<
+                            "5 = Purple" << std::endl <<
+                            "6 = Orange" << std::endl <<
+                            "7 = Gold" << std::endl <<
+                            "Stake: ";
+    //this is the int value of Stakes::UNSET
+    int chosen_stake = 8;
     std::string choice;
     bool loop = true;
     while (loop) {
@@ -302,6 +305,7 @@ void Balatro::setStake() {
 
 void Balatro::setScore() {
     //TODO:  OOPS ONLY HALF DONEsimilar logic to Minesweeper::SetTime(), figure out way to accept E scores. also TODO Alexis, is this finished? -IXL
+    //this is super unfinished + haven't figured out E score thing yet, tomorrow problem -lex
     std::string choice;
     bool loop = true;
     //999 seconds is the maximum tracked time on Minesweeper - for balatro, there is no way you last 999 rounds, so it's also safe.
@@ -357,21 +361,16 @@ void Balatro::setScore() {
             }
         }
     }
-    std::cout << "Your game scored" << time << " points!" << std::endl;
+    std::cout << "Your highest hand score was " << getScore() << "!" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
 
 }
 
 void Balatro::setTime() {
-    //TODO: implement this. represents ante. steal logic from Minesweeper::setTime(), if user gets past ante 8 (so to ante 9) won is set to true.
-}
-
-void Balatro::setRound() {
-    //TODO: implement this. similar logic to Minesweeper::setTime() but does not modify won. ALEXIS: I do not see where this modifies won. IXL
-std::string choice;
+    std::string choice;
     bool loop = true;
-    //999 seconds is the maximum tracked time on Minesweeper - for balatro, there is no way you last 999 rounds, so it's also safe.
-    std::cout << "How many rounds did the game last? (Please pick an integer between 0 and 999): ";
+    //39 is the highest possible ante in Balatro
+    std::cout << "What ante did you get to? (Please pick an integer between 0 and 39): ";
     while (loop) {
         getline(std::cin, choice);
         //following two while-loops remove whitespace
@@ -387,7 +386,7 @@ std::string choice;
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            std::cout << "No input. Please enter an integer between 0 and 999: ";
+            std::cout << "No input. Please enter an integer between 0 and 39: ";
             getline(std::cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -403,7 +402,7 @@ std::string choice;
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 39: ";
                 break;
             }
             count++;
@@ -414,38 +413,99 @@ std::string choice;
             ss << choice;
             ss >> chosen_time;
             //this condition being satisfied is the only way for the input validation loop to end
-            if (chosen_time <= 999 && chosen_time >= 0) {
+            if (chosen_time <= 39 && chosen_time >= 0) {
                 time = chosen_time;
                 loop = false;
             }
             else {
-                std::cout << "Invalid input. Please enter an integer between 0 and 999: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 39: ";
             }
         }
     }
-    std::cout << "Your game took " << time << " rounds!" << std::endl;
+    //if you beat ante 8 you technically win and go on to "endless mode" which is not actually endless
+    if (time > 8) won = true;
+    std::cout << "You got to ante " << time << "!" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
+}
 
+void Balatro::setRound() {
+    std::string choice;
+    bool loop = true;
+    //there are 3 rounds per ante
+    std::cout << "What round did you lose on? (Please pick an integer between 0 and 3): ";
+    while (loop) {
+        getline(std::cin, choice);
+        //following two while-loops remove whitespace
+        while (choice[0] == ' ') {
+            choice.erase(0, 1);
+        }
+        while (choice[choice.length() - 1] == ' ') {
+            choice.erase(choice.length() - 1);
+        }
+        //removes leading zeros
+        while (choice[0] == '0') {
+            if (choice.length() == 1) break;
+            choice.erase(0, 1);
+        }
+        while (choice.length() == 0) {
+            std::cout << "No input. Please enter an integer between 0 and 3: ";
+            getline(std::cin, choice);
+            while (choice[0] == ' ') {
+                choice.erase(0, 1);
+            }
+            while (choice[choice.length() - 1] == ' ') {
+                choice.erase(choice.length() - 1);
+            }
+            while (choice[0] == '0') {
+                if (choice.length() == 1) break;
+                choice.erase(0, 1);
+            }
+        }
+        int count = 1;
+        for (char c : choice) {
+            if (!isdigit(c)) {
+                std::cout << "Invalid input. Please enter an integer between 0 and 3: ";
+                break;
+            }
+            count++;
+        }
+        if (count == (1 + choice.length())) {
+            std::stringstream ss;
+            int chosen_time;
+            ss << choice;
+            ss >> chosen_time;
+            //this condition being satisfied is the only way for the input validation loop to end
+            if (chosen_time <= 3 && chosen_time >= 0) {
+                time = chosen_time;
+                loop = false;
+            }
+            else {
+                std::cout << "Invalid input. Please enter an integer between 0 and 3: ";
+            }
+        }
+    }
+    std::cout << "You got to round " << round << "!" << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
 }
 
 void Balatro::setHand() {
-    //Sets the most played hand
     std::cout << "What was your most played hand?" << std::endl <<
-            "0 = Not Tracking Hand" << std::endl <<
+            "0 = Not Tracking Most Played Hand" << std::endl <<
             "1 = Flush Five" << std::endl <<
             "2 = Flush House" << std::endl <<
-            "3 = Five of a kind" << std::endl <<
+            "3 = Five of a Kind" << std::endl <<
             "4 = Royal Flush" << std::endl <<
             "5 = Straight Flush" << std::endl <<
-            "6 = Four of a kind" << std::endl <<
+            "6 = Four of a Kind" << std::endl <<
             "7 = Full House" << std::endl <<
             "8 = Flush" << std::endl <<
             "9 = Straight" << std::endl <<
-            "10 = Three of a kind" << std::endl <<
+            "10 = Three of a Kind" << std::endl <<
             "11 = Two Pair" << std::endl <<
             "12 = Pair" << std::endl <<
-            "13 = High card" << std::endl <<
-            "Reason: ";
+            "13 = High Card" << std::endl <<
+            "Hand: ";
+    //int value of Hand::NOT_TRACKING
     int chosen_hand = 0;
     std::string choice;
     bool loop = true;
@@ -464,7 +524,7 @@ void Balatro::setHand() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            std::cout << "No input. Please enter an integer between 0 and 4: ";
+            std::cout << "No input. Please enter an integer between 0 and 13: ";
             getline(std::cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -480,7 +540,7 @@ void Balatro::setHand() {
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                std::cout << "Invalid input. Please enter an integer between 0 and 4: ";
+                std::cout << "Invalid input. Please enter an integer between 0 and 13: ";
                 break;
             }
             count++;
@@ -503,108 +563,101 @@ void Balatro::setHand() {
     switch (chosen_hand) {
         case 0:
             hand = Hands::NOT_TRACKING;
-            std::cout << "Most common hand: Not Tracking" << std::endl;
+            std::cout << "Chose not to track most played hand." << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 1:
             hand = Hands::FLUSH_FIVE;
-            std::cout << "Most common hand: FLUSH FIVE" << std::endl;
+            std::cout << "Most Played Hand: Flush Five" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 2:
             hand = Hands::FLUSH_HOUSE;
-            std::cout << "Most common hand: FLUSH HOUSE" << std::endl;
+            std::cout << "Most Played Hand: Flush House" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 3:
             hand = Hands::FIVE_OF_A_KIND;
-            std::cout << "Most common hand: FIVE OF A KIND" << std::endl;
+            std::cout << "Most Played Hand: Five of a Kind" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         case 4:
             hand = Hands::ROYAL_FLUSH;
-            std::cout << "Most common hand: ROYAL FLUSH" << std::endl;
+            std::cout << "Most Played Hand: Royal Flush" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 5:
+            hand = Hands::STRAIGHT_FLUSH;
+            std::cout << "Most Played Hand: Straight Flush" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 6:
+            hand = Hands::FOUR_OF_A_KIND;
+            std::cout << "Most Played Hand: Four of a Kind" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 7:
+            hand = Hands::FULL_HOUSE;
+            std::cout << "Most Played Hand: Full House" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 8:
+            hand = Hands::FLUSH;
+            std::cout << "Most Played Hand: Flush" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 9:
+            hand = Hands::STRAIGHT;
+            std::cout << "Most Played Hand: Straight" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 10:
+            hand = Hands::THREE_OF_A_KIND;
+            std::cout << "Most Played Hand: Three of a Kind" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 11:
+            hand = Hands::TWO_PAIR;
+            std::cout << "Most Played Hand: Two Pair" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 12:
+            hand = Hands::PAIR;
+            std::cout << "Most Played Hand: Pair" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(600));
+            break;
+        case 13:
+            hand = Hands::HIGH_CARD;
+            std::cout << "Most Played Hand: High Card" << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             break;
         default: break;
-
-        case 5:
-            hand = Hands::STRAIGHT_FLUSH;
-        std::cout << "Most common hand: STRAIGHT FLUSH" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-         break;
-
-        case 6:
-            hand = Hands::FOUR_OF_A_KIND;
-        std::cout << "Most common hand: FOUR OF A KIND" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-
-
-        case 7:
-            hand = Hands::FULL_HOUSE;
-        std::cout << "Most common hand: FULL HOUSE" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-
-        case 8:
-            hand = Hands::FLUSH;
-        std::cout << "Most common hand: FLUSH" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-        case 9:
-            hand = Hands::STRAIGHT;
-        std::cout << "Most common hand: STRAIGHT" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-        case 10:
-            hand = Hands::THREE_OF_A_KIND;
-        std::cout << "Most common hand: THREE OF A KIND" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-        case 11:
-            hand = Hands::TWO_PAIR;
-        std::cout << "Most common hand: TWO PAIR" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-        case 12:
-            hand = Hands::PAIR;
-        std::cout << "Most common hand: PAIR" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-        case 13:
-            hand = Hands::HIGH_CARD;
-        std::cout << "Most common hand: HIGH CARD" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(600));
-        break;
-
     }
-
-
-
 }
 
 int Balatro::getDeck() const {
     //RED, BLUE, YELLOW, GREEN, BLACK, MAGIC, NEBULA, GHOST, ABANDONED
     //CHECKERED, ZODIAC, PAINTED, ANAGLYPH, PLASMA, ERRATIC
     switch (deck) {
-        case Decks::RED: return 0;
-        case Decks::BLUE: return 1;
-        case Decks::YELLOW: return 2;
-        case Decks::GREEN: return 3;
-        case Decks::BLACK: return 4;
-        case Decks::MAGIC: return 5;
-        case Decks::NEBULA: return 6;
-        case Decks::GHOST: return 7;
-        case Decks::ABANDONED: return 8;
-        case Decks::CHECKERED: return 9;
-        case Decks::ZODIAC: return 10;
-        case Decks::PAINTED: return 11;
-        case Decks::ANAGLYPH: return 12;
-        case Decks::PLASMA: return 13;
-        case Decks::ERRATIC: return 14;
+        case Decks::NOT_TRACKING: return 0;
+        case Decks::RED: return 1;
+        case Decks::BLUE: return 2;
+        case Decks::YELLOW: return 3;
+        case Decks::GREEN: return 4;
+        case Decks::BLACK: return 5;
+        case Decks::MAGIC: return 6;
+        case Decks::NEBULA: return 7;
+        case Decks::GHOST: return 8;
+        case Decks::ABANDONED: return 9;
+        case Decks::CHECKERED: return 10;
+        case Decks::ZODIAC: return 11;
+        case Decks::PAINTED: return 12;
+        case Decks::ANAGLYPH: return 13;
+        case Decks::PLASMA: return 14;
+        case Decks::ERRATIC: return 15;
     }
+    //will return value of Decks::NOT_TRACKING as base case
+    return 0;
 }
 
 int Balatro::getStake() const {
@@ -618,7 +671,10 @@ int Balatro::getStake() const {
         case Stakes::PURPLE: return 5;
         case Stakes::ORANGE: return 6;
         case Stakes::GOLD: return 7;
+        case Stakes::UNSET: return 8;
     }
+    //will return value of Stakes::UNSET as base case
+    return 8;
 }
 
 int Balatro::getRound() const {
@@ -629,19 +685,21 @@ int Balatro::getHand() const {
     //FLUSH_FIVE, FLUSH_HOUSE, FIVE_OF_A_KIND, ROYAL_FLUSH, STRAIGHT_FLUSH, FOUR_OF_A_KIND,
     //FULL_HOUSE, FLUSH, STRAIGHT, THREE_OF_A_KIND, TWO_PAIR, PAIR, HIGH_CARD
     switch (hand) {
-        case Hands::FLUSH_FIVE: return 0;
-        case Hands::FLUSH_HOUSE: return 1;
-        case Hands::FIVE_OF_A_KIND: return 2;
-        case Hands::ROYAL_FLUSH: return 3;
-        case Hands::STRAIGHT_FLUSH: return 4;
-        case Hands::FOUR_OF_A_KIND: return 5;
-        case Hands::FULL_HOUSE: return 6;
-        case Hands::FLUSH: return 7;
-        case Hands::STRAIGHT: return 8;
-        case Hands::THREE_OF_A_KIND: return 9;
-        case Hands::TWO_PAIR: return 10;
-        case Hands::PAIR: return 11;
-        case Hands::HIGH_CARD: return 12;
+        case Hands::NOT_TRACKING: return 0;
+        case Hands::FLUSH_FIVE: return 1;
+        case Hands::FLUSH_HOUSE: return 2;
+        case Hands::FIVE_OF_A_KIND: return 3;
+        case Hands::ROYAL_FLUSH: return 4;
+        case Hands::STRAIGHT_FLUSH: return 5;
+        case Hands::FOUR_OF_A_KIND: return 6;
+        case Hands::FULL_HOUSE: return 7;
+        case Hands::FLUSH: return 8;
+        case Hands::STRAIGHT: return 9;
+        case Hands::THREE_OF_A_KIND: return 10;
+        case Hands::TWO_PAIR: return 11;
+        case Hands::PAIR: return 12;
+        case Hands::HIGH_CARD: return 13;
     }
-
+    //will return value of Hands::NOT_TRACKING as base case
+    return 0;
 }
