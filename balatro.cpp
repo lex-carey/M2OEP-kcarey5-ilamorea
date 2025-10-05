@@ -3,7 +3,6 @@
 #include <sstream>
 #include <thread>
 #include <string>
-#include <algorithm>
 
 Balatro::Balatro() {
     setDate(0, 0);
