@@ -285,53 +285,11 @@ void Stats::getStats(const int &chosen_state) {
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
             //checking that there are actually games to get stats for
             if (!balatroGames.empty()) {
+                Balatro balatro = Balatro();
+                balatro.setStake(1);
                 std::cout << std::endl << "Updating Stats . . . " << std::endl << std::endl;
-                std::vector<Balatro> white, red, green, black, blue, purple, orange, gold;
-                for (std::unique_ptr<Balatro> &game : balatroGames) {
-                    switch(game->getStake()) {
-                        case 0: white.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 1: red.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 2: green.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 3: black.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 4: blue.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 5: purple.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 6: orange.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        case 7: gold.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon())); break;
-                        default: break;
-                    }
-                    Balatro balatro = Balatro();
-                    std::cout << "What stake would you like to view stats for?" << std::endl;
-                    balatro.setStake(1);
-                    switch(balatro.getStake()) {
-                    case 0: {
-                            std::cout << "Chosen White." << std::endl << std::endl;
-                        }
-                    case 1: {
-                            std::cout << "Chosen Red." << std::endl << std::endl;
-                        }
-                    case 2: {
-                            std::cout << "Chosen Green." << std::endl << std::endl;
-                        }
-                        case 3: {
-
-                        }
-                        case 4: {
-
-                        }
-                        case 5: {
-
-                        }
-                        case 6: {
-                            std::cout << "Chosen Gold" << std::endl << std::endl;
-                        }
-                    case 7:
-                        {
-
-                        }
-                    }
-                }
+                getStakeStats(balatro);
             }
-
             else {
                 std::cout << "You haven't logged any games yet! Log a game first to see your stats :)" << std::endl << std::endl;
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
@@ -343,4 +301,119 @@ void Stats::getStats(const int &chosen_state) {
             break;
     }
 }
+
+void Stats::getStakeStats(Balatro &balatro) {
+    std::vector<Balatro> stakeGames;
+    std::vector<Balatro> stakeTopGames;
+    for (std::unique_ptr<Balatro> &game : balatroGames) {
+        if (game->getStake() == balatro.getStake()) {
+            stakeGames.push_back(Balatro(game->getMonth(), game->getYear(), game->getDeck(), game->getStake(), game->getScore(), game->getTime(), game->getRound(), game->getHand(), game->getWon()));
+        }
+    }
+    for (std::unique_ptr<Balatro> &topGame : balatroTopGames) {
+        if (topGame->getStake() == balatro.getStake()) {
+            stakeTopGames.push_back(Balatro(topGame->getMonth(), topGame->getYear(), topGame->getDeck(), topGame->getStake(), topGame->getScore(), topGame->getTime(), topGame->getRound(), topGame->getHand(), topGame->getWon()));
+        }
+    }
+    if (!stakeGames.empty()) {
+        //tracks number of games played with each deck type (index = int val of enum)
+        std::vector<int> deck = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        //tracks number of games played w/each hand type (index = int val of enum)
+        std::vector<int> hand = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        //stats vars
+        int avg_score = 0, avg_time = 0, avg_round = 0, games_won = 0;
+        for (Balatro &game : stakeGames) {
+            avg_score += game.getScore();
+            avg_time += game.getTime();
+            avg_round += game.getRound();
+            if (game.getWon()) games_won++;
+            switch (game.getStake()) {
+                case 0: deck[0]++; break;
+                case 1: deck[1]++; break;
+                case 2: deck[2]++; break;
+                case 3: deck[3]++; break;
+                case 4: deck[4]++; break;
+                case 5: deck[5]++; break;
+                case 6: deck[6]++; break;
+                case 7: deck[7]++; break;
+                case 8: deck[8]++; break;
+                case 9: deck[9]++; break;
+                case 10: deck[10]++; break;
+                case 11: deck[11]++; break;
+                case 12: deck[12]++; break;
+                case 13: deck[13]++; break;
+                case 14: deck[14]++; break;
+                case 15: deck[15]++; break;
+                default: break;
+            }
+            switch (game.getStake()) {
+                case 0: hand[0]++; break;
+                case 1: hand[1]++; break;
+                case 2: hand[2]++; break;
+                case 3: hand[3]++; break;
+                case 4: hand[4]++; break;
+                case 5: hand[5]++; break;
+                case 6: hand[6]++; break;
+                case 7: hand[7]++; break;
+                case 8: hand[8]++; break;
+                case 9: hand[9]++; break;
+                case 10: hand[10]++; break;
+                case 11: hand[11]++; break;
+                case 12: hand[12]++; break;
+                case 13: hand[13]++; break;
+                default: break;
+            }
+        }
+        //calculating averages
+        avg_score = avg_score/stakeGames.size();
+        avg_time = avg_time / stakeGames.size();
+        avg_round = avg_round / stakeGames.size();
+        int most_played_deck = 0, most_played_hand = 0;
+        int highest_deck = deck[0], index = 0;
+        //determining most played deck for stake
+        for (int i : deck) {
+            if (i >= highest_deck) {
+                highest_deck = i;
+                most_played_deck = index;
+            }
+            index++;
+        }
+        balatro.setDeck(most_played_deck);
+        int highest_hand = hand[0];
+        index = 0;
+        //determining most played hand for stake
+        for (int i : hand) {
+            if (i >= highest_hand) {
+                highest_hand = i;
+                most_played_hand = index;
+            }
+            index++;
+        }
+        balatro.setHand(most_played_hand);
+        //printing stats
+        std::cout << std::endl << "You have played " << stakeGames.size() << " games of balatro at this stake!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        if (games_won > 0) std::cout << "Out of these games you have won " << games_won << "!" << std::endl << std::endl;
+        else std::cout << "You haven't won any games at this stake yet. Keep trying and you'll get your first!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        std::cout << "Your most played deck on this stake is the " << balatro.getDeckString() << " deck. You have played " << highest_deck << " games with this deck at this stake so far!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::cout << "Your most played hand on this stake is " << balatro.getHandString() << ". You have played " << highest_hand << " games with this hand type at this stake so far!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::cout << "Your average ante and round at this stake is ante " << avg_time << " round " << avg_round << ". Your average score at this stake is " << avg_score << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::cout << "Your best game was on " << stakeTopGames.back().getMonth() << "/" << stakeTopGames.back().getYear() <<
+                    ". You played with the " << stakeTopGames.back().getDeckString() << " deck and you got to ante " <<
+                    stakeTopGames.back().getTime() << " round " << stakeTopGames.back().getRound() << ". Your most played hand this game was " << stakeTopGames.back().getHandString() <<
+                    "and your best hand scored " << stakeTopGames.back().getScore() << " points!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+        std::cout << "Well, those are all the stats I have for you right now. Feel free to log more games and check back for updates!" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    }
+    else {
+        std::cout << "You haven't logged any games with this stake yet! Log a game first to see your stats :)" << std::endl << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    }
+}
+
 

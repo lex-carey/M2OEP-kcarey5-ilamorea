@@ -53,6 +53,14 @@ public:
      * Calculates and prints the stats of the game corresponding to the chosen_state.
      */
     void getStats(const int &chosen_state);
+
+    /*
+     * Get Stake Stats
+     * Requires: an integer
+     * Modifies: Nothing
+     * Calculates and prints stats for the chosen balatro stake.
+     */
+    void getStakeStats(Balatro &balatro);
 };
 
 

@@ -16,7 +16,14 @@ Balatro::Balatro() {
 }
 
 Balatro::Balatro(const int& month, const int& year, const int& deck, const int& stake, const int& score, const int& time, const int& round, const int& hand, const int& won) {
-    //TODO: finish this, should just assign everything to specified values. use var = static_cast<class>(input) to set enum vars. (see minesweeper constructor)
+    setDate(month, year);
+    this->deck = static_cast<Decks>(deck);
+    this->stake = static_cast<Stakes>(stake);
+    this->score = score;
+    this->time = time;
+    this->round = round;
+    this->hand = static_cast<Hands>(hand);
+    this->won = static_cast<bool>(won);
 }
 
 void Balatro::setDeck() {
@@ -179,6 +186,10 @@ void Balatro::setDeck() {
             std::this_thread::sleep_for(std::chrono::milliseconds(600));
         break;
     }
+}
+
+void Balatro::setDeck(const int &deck) {
+    this->deck = static_cast<Decks>(deck);
 }
 
 void Balatro::setStake(const int &i) {
@@ -432,7 +443,7 @@ void Balatro::setRound() {
     std::string choice;
     bool loop = true;
     //there are 3 rounds per ante
-    std::cout << "What round did you lose on? (Please pick an integer between 0 and 3): ";
+    std::cout << "What round did you lose on? (Please pick an integer between 1 and 3): ";
     while (loop) {
         getline(std::cin, choice);
         //following two while-loops remove whitespace
@@ -448,7 +459,7 @@ void Balatro::setRound() {
             choice.erase(0, 1);
         }
         while (choice.length() == 0) {
-            std::cout << "No input. Please enter an integer between 0 and 3: ";
+            std::cout << "No input. Please enter an integer between 1 and 3: ";
             getline(std::cin, choice);
             while (choice[0] == ' ') {
                 choice.erase(0, 1);
@@ -464,7 +475,7 @@ void Balatro::setRound() {
         int count = 1;
         for (char c : choice) {
             if (!isdigit(c)) {
-                std::cout << "Invalid input. Please enter an integer between 0 and 3: ";
+                std::cout << "Invalid input. Please enter an integer between 1 and 3: ";
                 break;
             }
             count++;
@@ -475,12 +486,12 @@ void Balatro::setRound() {
             ss << choice;
             ss >> chosen_time;
             //this condition being satisfied is the only way for the input validation loop to end
-            if (chosen_time <= 3 && chosen_time >= 0) {
+            if (chosen_time <= 3 && chosen_time >= 1) {
                 time = chosen_time;
                 loop = false;
             }
             else {
-                std::cout << "Invalid input. Please enter an integer between 0 and 3: ";
+                std::cout << "Invalid input. Please enter an integer between 1 and 3: ";
             }
         }
     }
@@ -635,6 +646,10 @@ void Balatro::setHand() {
     }
 }
 
+void Balatro::setHand(const int &hand) {
+    this->hand = static_cast<Hands>(hand);
+}
+
 int Balatro::getDeck() const {
     //RED, BLUE, YELLOW, GREEN, BLACK, MAGIC, NEBULA, GHOST, ABANDONED
     //CHECKERED, ZODIAC, PAINTED, ANAGLYPH, PLASMA, ERRATIC
@@ -702,4 +717,46 @@ int Balatro::getHand() const {
     }
     //will return value of Hands::NOT_TRACKING as base case
     return 0;
+}
+
+std::string Balatro::getDeckString() const {
+    switch (deck) {
+        case Decks::NOT_TRACKING: return "Not Tracking";
+        case Decks::RED: return "Red";
+        case Decks::BLUE: return "Blue";
+        case Decks::YELLOW: return "Yellow";
+        case Decks::GREEN: return "Green";
+        case Decks::BLACK: return "Black";
+        case Decks::MAGIC: return "Magic";
+        case Decks::NEBULA: return "Nebula";
+        case Decks::GHOST: return "Ghost";
+        case Decks::ABANDONED: return "Abandoned";
+        case Decks::CHECKERED: return "Checkered";
+        case Decks::ZODIAC: return "Zodiac";
+        case Decks::PAINTED: return "Painted";
+        case Decks::ANAGLYPH: return "Anaglyph";
+        case Decks::PLASMA: return "Plasma";
+        case Decks::ERRATIC: return "Erratic";
+    }
+    return "Not Tracking";
+}
+
+std::string Balatro::getHandString() const {
+    switch (hand) {
+        case Hands::NOT_TRACKING: return "Not Tracking";
+        case Hands::FLUSH_FIVE: return "Flush Five";
+        case Hands::FLUSH_HOUSE: return "Flush House";
+        case Hands::FIVE_OF_A_KIND: return "Five Of A Kind";
+        case Hands::ROYAL_FLUSH: return "Royal Flush";
+        case Hands::STRAIGHT_FLUSH: return "Straight Flush";
+        case Hands::FOUR_OF_A_KIND: return "Four of A Kind";
+        case Hands::FULL_HOUSE: return "Full House";
+        case Hands::FLUSH: return "Flush";
+        case Hands::STRAIGHT: return "Straight";
+        case Hands::THREE_OF_A_KIND: return "Three of A Kind";
+        case Hands::TWO_PAIR: return "Two Pair";
+        case Hands::PAIR: return "Pair";
+        case Hands::HIGH_CARD: return "High Card";
+    }
+    return "Not Tracking";
 }

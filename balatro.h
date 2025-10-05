@@ -42,6 +42,14 @@ public:
     void setDeck();
 
     /*
+     * Alternate Set Deck Method
+     * Requires: an integer
+     * Modifies: deck
+     * Static casts integer onto deck variable.
+     */
+    void setDeck(const int &deck);
+
+    /*
      * Set Stake
      * Requires: Nothing
      * Modifies: stake
@@ -84,6 +92,14 @@ public:
     void setHand();
 
     /*
+     * Alternate Set Hand Method
+     * Requires: an integer
+     * Modifies: hand
+     * Static casts integer onto hand variable
+     */
+    void setHand(const int &hand);
+
+    /*
      * Get Deck
      * Requires: Nothing
      * Modifies: Nothing
@@ -114,6 +130,10 @@ public:
      * Returns the corresponding integer value to hand's enumerated value.
      */
     int getHand() const;
+
+    std::string getDeckString() const;
+
+    std::string getHandString() const;
 
     //TODO: overload equality operators
 };
