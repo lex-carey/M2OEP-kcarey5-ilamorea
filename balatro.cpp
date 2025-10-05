@@ -320,7 +320,7 @@ std::string choice;
 }
 
 void Balatro::setHand() {
-    //TODO: implement. steal logic from Minesweeper::setReason().
+    //Sets the most played hand
     std::cout << "What was your most played hand?" << std::endl <<
             "0 = Not Tracking Hand" << std::endl <<
             "1 = Flush Five" << std::endl <<
