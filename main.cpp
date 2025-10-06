@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-
+#include <sstream>
 using namespace std;
 
 void getMenuChoice(int &chosen_function);
