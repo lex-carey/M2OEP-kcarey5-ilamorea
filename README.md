@@ -1,21 +1,21 @@
-# Minesweeper Stats Tracker
-All code for this project was authored by Alexis Carey for the M1OEP.
+# Video Game Stats Tracker
+All code for this project was authored by Alexis Carey and Issac Lamorea for the M2OEP.
 
 ## Project Summary
-This is a program I created to be able to track my Minesweeper statistics. It's a game I've been playing for a couple years now so I think it would be cool to be able to track my improvement. When the program is run, you are met with a menu where you can either choose to log a new game or view your game stats. The program guides you through the process of logging a new game.
+This program was built off the Minesweeper Stats tracker Alexis built for the M1OEP, but has been expanded to track stats for Balatro games along with Minesweeper games. When the program is run, the user is met with a menu where they can either choose to log a new game or view stats for each game. The program guides the user through the process of both.
 
-I used all the concepts in the module 1 concepts menu:
-* Class separated into header and .cpp files
-  * I created the Game class, which has 6 fields. To acheive what I wanted to in what made the most sense to me, I have not included a method that is not a constructor, getter/setter, or a destructor. That being said, multiple of my setter methods are much more complex than a traditional setter method would typically be (involves user-inputted data and includes input validation), so I feel like I implemented this concept well.
-* Overloaded Operators
-  * I overloaded all the comparison operators for my class in order to be able to determine what was a "better" or "worse" game. That being said I only ended up using one in my main method, but I intend to use more in the future when I create more statistics. More bombs cleared in a shorter amount of  time is better, therefore a better game would be "greater than" a worse one.
-* Enumerated Types
-  * I used two enumerated variables in this program. One is the Game class's reason variable, which logs the reason a game has been lost. The user is given five options to choose from (NOT_TRACKING, LOGIC, MISCLICK, MISCOUNT, CHANCE) when logging their game. The other is the function variable, which is used to determine what the main method is doing at the time. The user is prompted to pick one of three options (LOG_GAME, VIEW_STATS, QUIT) upon running the program which will guide what the main method does.
+We used all the concepts in the M2OEP concepts menu:
+* Inheritance Class Relationship
+  * This program features one parent class, Game, that has two child classes, Minesweeper and Balatro. The child classes inherit 5 variables from Game along with all methods in the class. Both child classes have their own additional methods that aid the user in the creation of a game of each type. Minesweeper has one additional variable and Balatro has four.
+* Component Class Relationship
+  * Both Minesweeper and Balatro are component classes of the Stats class. Stats creates vectors of each game type which it uses to calculate game statistics.
+* File Input/File Output
+  * Both file input and file output are featured in this program. This program utilizes four CSV files (balatro_log.csv, balatro_top_games.csv, minesweeper_log.csv, and minesweeper_top_games.csv) that act as long-term storage for game information. Data from these files is loaded into vectors when a new Stats object is created, and data is loaded into the files when games are logged through either the logMinesweeperGame() or logBalatroGame() methods, depending on the game type. 
 
-I see the next step for this project being spending more time creating new statistics. It would also be nice to be able to view statistics by month or year in the future, but I didn't have the time to implement that within this timeframe. I'm not very good with graphics but as I get better with that I think it would also be cool to actually create a way to play Minesweeper and have the program automatically log the games played.
+If there had been more time to dedicate to this project, it would have been nice to expand upon Balatro's setScore() method. Though very hard to achieve, Balatro hands have the capacity to reach a score so high that the game is forced to use scientific notation to track them. There wasn't time to figure out a way for scientific notation scores to be accepted by the current setScore() method, but if it's possible it'll definitely be something that will get implemented in the future. Something else that was mentioned in the M1OEP README that still holds is the desire to expand on the Minesweeper statistics. There wasn't time to implement that for this rendition of the project, but it's on the to-do list.
 
 ## Bugs
-I currently know of no unresolved bugs. Everything that I found during my testing I was able to fix. Please let me know if you find something if you end up running this program!
+We currently know of no unresolved bugs. Everything found during testing was able to be fixed. Please let us know if you find something if you end up running this program!
 
 ## Grading
-I believe I implemented every idea I had for this program to the best of my ability. The program is interactive and all input is validated. I honestly think I did enough here to earn full marks in every section. In my opinion, everything included in this program is used in a way that makes sense, and I hope you think this is a good level of complexity because I'm very proud of it. As addressed above, I realize I didn't exactly meet the requirements for implementing a class but I didn't see any functionality worth adding, and I think trying to create something would have taken away from the program. I believe my setters for bombs, time, and reason are robust enough to compensate for this.
+We believe we have met every expectation for this project. Our main program is interactive and thoroughly complex. It requires user input to guide its functions and all input is validated. Many of our non-trivial methods require user input for them to function so they are not included in the testing class, but they are utilized in main and run as intended (even when the user inputs an unacceptable value) so we believe that is proof enough of their functionality. All non-trivial methods which do not require user input are tested in the testing class and have multiple test cases. We believe this project has the potential to score at least full marks.
