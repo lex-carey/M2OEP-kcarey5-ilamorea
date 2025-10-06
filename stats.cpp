@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-#include <iomanip>
 
 Stats::Stats() {
     state = States::UNSET;
